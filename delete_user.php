@@ -12,7 +12,7 @@ if (mysqli_query($con, $update)) {
     </script>
 <?php
 } else {
-    setcookie('success', "user data updated", time() + 2);
+    setcookie('success', "user data updated", time() + 2, "/");
 ?>
     <script>
         window.location.href = "manage_users.php";

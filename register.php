@@ -1,6 +1,14 @@
 <?php
 include_once("header.php");
 include_once("connection.php");
+
+require 'PHPMailer/Exception.php';
+require 'PHPMailer/PHPMailer.php';
+require 'PHPMailer/SMTP.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 ?>
 <script>
     $(document).ready(function() {
@@ -187,8 +195,55 @@ if (isset($_POST['btn'])) {
             mkdir("images/profile_pictures");
         }
         move_uploaded_file($_FILES['pic']['tmp_name'], "images/profile_pictures/.$pic");
+
+        $mail = new PHPMailer(true);
+        try {
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'kansagrajanki@gmail.com';
+            $mail->Password = 'your app password';
+            $mail->SMTPSecure = 'tls';
+            $mail->Port = 587;
+
+            $mail->setFrom('kansagrajanki@gmail.com', 'Janki');
+            $mail->addAddress($email, $fn);
+
+            $mail->isHTML(true);
+            $mail->Subject = 'Email Verification';
+            $activation_link = "http://localhost/MCA_2024-25/verify_email.php?em=" . $email;
+            $mail->Body    = "<html>
+            <head>
+                <style>
+                    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                    .container { max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; }
+                    h1 { color: black; }
+                    .button { display: inline-block; padding: 10px 20px; background-color: black; color: white; text-decoration: none; border-radius: 5px; }
+                    .footer { margin-top: 20px; font-size: 0.8em; color: #777; }
+                    a { text-decoration: none; color: white; }
+                </style>
+            </head>
+            <body>
+                <div class='container'>
+                    <h1>Welcome, $fn!</h1>
+                    <p>Thank you for registering. Please click the button below to activate your account:</p>
+                    <p><a href='$activation_link' class='button'>Activate Your Account</a></p>
+                    <p>If you didn't register on our website, please ignore this email.</p>
+                    <div class='footer'>
+                        <p>This is an automated message, please do not reply to this email.</p>
+                    </div>
+                </div>
+            </body>
+            </html>";
+
+            $mail->send();
+        } catch (Exception $e) {
+            // $_SESSION['error'] = "Error in sending email: ". $mail->ErrorInfo;
+            setcookie('error', "Error in sending email: " . $mail->ErrorInfo, time() + 5);
+        }
+
         // $_SESSION['success'] = "Registration Successfull. VErify your Email using verification link sent to registered Email Address";
-        setcookie('success', 'Registration Successfull. VErify your Email using verification link sent to registered Email Address', time() + 2)
+        setcookie('success', 'Registration Successfull. Verify your Email using verification link sent to registered Email Address', time() + 5, "/");
 ?>
 
         <script>
@@ -197,7 +252,7 @@ if (isset($_POST['btn'])) {
     <?php
     } else {
         // $_SESSION['error'] = "Error in Registration. Try again."
-        setcookie('error', 'Error in Registration. Try again.', time() + 2)
+        setcookie('error', 'Error in Registration. Try again.', time() + 5, "/");
     ?>
 
         <script>
