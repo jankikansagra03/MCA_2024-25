@@ -24,14 +24,14 @@ if (isset($_POST['btn'])) {
             unlink("images/profile_pictures/" . $_SESSION['old_pic']);
             move_uploaded_file($_FILES['pic']['tmp_name'], "images/profile_pictures/" . $pic);
         }
-        setcookie('success', "user data updated", time() + 2);
+        setcookie('success', "user data updated", time() + 60, "/");
 ?>
         <script>
             window.location.href = "manage_users.php";
         </script>
     <?php
     } else {
-        setcookie('error', "Error in updating data", time() + 2);
+        setcookie('error', "Error in updating data", time() + 60, "/");
     ?>
         <script>
             window.location.href = "manage_users.php";

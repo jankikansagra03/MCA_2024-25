@@ -14,12 +14,14 @@ if (isset($_POST['lgn_btn'])) {
                 if ($r['status'] == 'Active') {
                     if ($r['role'] == 'Admin') {
                         setcookie('success', 'Login Successful', time() + 5, "/");
+                        $_SESSION['admin_user'] = $em;
 ?>
                         <script>
                             window.location.href = "admin_dashboard.php";
                         </script>
                     <?php
                     } else {
+                        $_SESSION['user_uname'] = $email;
                         setcookie('success', 'Login Successful', time() + 5, "/");
                     ?>
                         <script>

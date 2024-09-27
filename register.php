@@ -1,6 +1,5 @@
 <?php
 include_once("header.php");
-include_once("connection.php");
 
 require 'PHPMailer/Exception.php';
 require 'PHPMailer/PHPMailer.php';
@@ -218,9 +217,10 @@ if (isset($_POST['btn'])) {
                     body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
                     .container { max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; }
                     h1 { color: black; }
+                    a { text-decoration: none; color: white; }
                     .button { display: inline-block; padding: 10px 20px; background-color: black; color: white; text-decoration: none; border-radius: 5px; }
                     .footer { margin-top: 20px; font-size: 0.8em; color: #777; }
-                    a { text-decoration: none; color: white; }
+                    
                 </style>
             </head>
             <body>
