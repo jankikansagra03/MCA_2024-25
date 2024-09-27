@@ -50,4 +50,4 @@ include_once("header.php");
 </div>
 
 <?php
-// include_once("admin_footer.php");
+include_once("admin_footer.php");

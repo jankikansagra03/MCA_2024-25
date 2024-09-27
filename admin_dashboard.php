@@ -8,6 +8,7 @@ include_once('header.php');
                 <h1 class="text-center">Admin Dashboard</h1>
             </div>
         </div>
+        <br>
         <div class="row">
             <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                 <div class="card bg-dark text-white mb-4">
@@ -103,5 +104,5 @@ include_once('header.php');
 </div>
 
 <?php
-// include_once("admin_footer.php");
+include_once("admin_footer.php");
 ?>

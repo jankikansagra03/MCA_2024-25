@@ -82,6 +82,8 @@ include_once("header.php");
 </div>
 
 <?php
+
+include_once("admin_footer.php");
 if (isset($_POST['change_password'])) {
     $old_pwd = $_POST['old_password'];
     $new_pwd = $_POST['new_password'];

@@ -141,6 +141,8 @@ if (isset($_SESSION['admin_user'])) {
 
 
 <?php
+include_once("admin_footer.php");
+
 if (isset($_POST['updt_btn'])) {
     $fullname = $_POST['fullname'];
     $email = $_POST['email'];
