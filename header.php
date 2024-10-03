@@ -1,10 +1,12 @@
 <?php
 include_once("connection.php");
+date_default_timezone_set('Asia/Kolkata');
 ob_start();
 session_start();
 if ($con->connect_error) {
     die("Connection failed: " . $con->connect_error);
 }
+// setcookie("error", "hjdsgj", time() - 5);
 $url = $_SERVER['REQUEST_URI'];
 $parsed_url = parse_url($url);
 $url1 = $parsed_url['path'];
