@@ -136,7 +136,7 @@ if (isset($_POST['frgt_pwd_btn'])) {
 
                 // Store the email, OTP, and timestamps in the database
                 $email_time = date("Y-m-d H:i:s");
-                $expiry_time = date("Y-m-d H:i:s", strtotime('+10 minutes')); // OTP valid for 10 minutes
+                $expiry_time = date("Y-m-d H:i:s", strtotime('+1 minutes')); // OTP valid for 10 minutes
                 $query = "INSERT INTO  password_token  (email, otp, created_at, expires_at) VALUES ('$email', '$otp', '$email_time', '$expiry_time')";
                 mysqli_query($con, $query);
 

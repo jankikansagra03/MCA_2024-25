@@ -55,10 +55,9 @@ include_once("header.php");
                 <br>
                 <input type="button" id="resend_otp" class="btn btn-warning" style="display:none;" value="Resend OTP">
                 <script>
-                    let timeLeft = 10; // 1 minute timer
+                    let timeLeft = 60; // 1 minute timer
                     const timerDisplay = document.getElementById('timer');
                     const resendButton = document.getElementById('resend_otp');
-                    x
 
                     // Function to start the countdown
                     function startCountdown() {
@@ -67,7 +66,7 @@ include_once("header.php");
                                 clearInterval(countdown);
                                 timerDisplay.innerHTML = "You can now resend the OTP.";
                                 resendButton.style.display = "inline";
-                                timeLeft = 10;
+                                timeLeft = 60;
                             } else {
                                 timerDisplay.innerHTML = `Resend OTP in ${timeLeft} seconds`;
                             }

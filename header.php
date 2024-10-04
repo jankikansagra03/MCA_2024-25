@@ -6,6 +6,9 @@ session_start();
 if ($con->connect_error) {
     die("Connection failed: " . $con->connect_error);
 }
+$current_time = date("Y-m-d H:i:s");
+$delete_query = "DELETE FROM password_token WHERE expires_at < '$current_time'";
+mysqli_query($con, $delete_query);
 // setcookie("error", "hjdsgj", time() - 5);
 $url = $_SERVER['REQUEST_URI'];
 $parsed_url = parse_url($url);
