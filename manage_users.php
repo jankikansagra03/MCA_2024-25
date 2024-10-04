@@ -141,12 +141,3 @@ include_once("header.php");
 </div>
 <?php
 include_once("admin_footer.php");
-
-
-http: //localhost/MCA_project/manage_users.php?page=1&search=
-
-http: //localhost/MCA_project/manage_users.php?page=1&search=
-
-http: //localhost/MCA_project/manage_users.php?search=janki
-
-http://localhost/MCA_project/manage_users.php?page=2&search=janki
