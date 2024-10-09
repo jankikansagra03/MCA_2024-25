@@ -33,6 +33,21 @@ $parts = explode("/", $url1);
 
 </head>
 <?php
+if (!isset($_SESSION['admin_user'])) {
+?>
+    <script>
+        window.location.href = "login.php";
+    </script>
+<?php
+}
+if (!isset($_SESSION['user_uname'])) {
+?>
+    <script>
+        window.location.href = "login.php";
+    </script>
+<?php
+}
+
 if (isset($_SESSION['admin_user'])) {
     $email = $_SESSION['admin_user'];
     $q = "select * from registration where email='$email'";

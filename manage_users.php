@@ -83,9 +83,9 @@ include_once("header.php");
                             echo "<td>" . $row['status'] . "</td>";
                             echo "<td>";
                             if ($row['status'] == 'Active') {
-                                echo "<a href='admin_toggle_user_status.php?id=" . $row['id'] . "&status=Inactive' class='btn btn-dark'><i class='fas fa-xmark'></i></a>&nbsp&nbsp;";
+                                echo "<a href='admin_toggle_user_status.php?id=" . $row['id'] . "&status=Active' class='btn btn-dark'><i class='fas fa-xmark'></i></a>&nbsp&nbsp;";
                             } else if ($row['status'] == 'Inactive') {
-                                echo "<a href='admin_toggle_user_status.php?id=" . $row['id'] . "&status=Active' class='btn btn-dark'><i class='fas fa-check'></i></a>&nbsp&nbsp;";
+                                echo "<a href='admin_toggle_user_status.php?id=" . $row['id'] . "&status=Inactive' class='btn btn-dark'><i class='fas fa-check'></i></a>&nbsp&nbsp;";
                             } else {
                                 echo "<a class='btn btn-dark'><i class='fa-solid fa-user-xmark'></i></a>&nbsp&nbsp;";
                             }
