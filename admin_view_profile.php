@@ -1,5 +1,6 @@
 <?php
 include_once("header.php");
+include_once('admin_authentication.php');
 ?>
 <br>
 

@@ -1,6 +1,6 @@
 <?php
 include_once("header.php");
-
+include_once('admin_authentication.php');
 $id = $_GET['id'];
 $status = $_GET['status'];
 

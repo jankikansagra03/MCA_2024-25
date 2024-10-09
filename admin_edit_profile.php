@@ -1,5 +1,6 @@
 <?php
 include_once("header.php");
+include_once('admin_authentication.php');
 
 if (isset($_SESSION['admin_user'])) {
     $email = $_SESSION['admin_user'];
