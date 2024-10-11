@@ -9,6 +9,9 @@ $con = mysqli_connect("localhost", "root", "", "MCA_2024-25");
 //password token table      
 // $q = "CREATE TABLE password_token (id INT AUTO_INCREMENT PRIMARY KEY, email VARCHAR(255) NOT NULL, otp INT NOT NULL,created_at DATETIME NOT NULL,expires_at DATETIME NOT NULL)";
 
+//image slider table
+
+// $q = "create table sliders(id int AUTO_INCREMENT PRIMARY KEY,img_name text(500))";
 
 // if (mysqli_query($con, $q)) {
 //     echo "Table Registration created ";

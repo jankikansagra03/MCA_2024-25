@@ -89,9 +89,18 @@ if (isset($_SESSION['admin_user'])) {
                                                                         } ?>" href="manage_offers.php">Offers</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link text-white <?php if ($parts[2] == "site_settings.php") {
-                                                                            echo "active btn btn-success    ";
-                                                                        } ?>" href="site_settings.php">Site Settings</a>
+                                        <div class="dropdown">
+                                            <a class="nav-link text-white dropdown-toggle <?php if ($parts[2] == "site_settings.php") {
+                                                                                                echo "active btn btn-success";
+                                                                                            } ?>" href="#" id="siteSettingsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Site Settings
+                                            </a>
+                                            <ul class="dropdown-menu" aria-labelledby="siteSettingsDropdown">
+                                                <li><a class="dropdown-item" href="admin_manage_about.php">About Page</a></li>
+                                                <li><a class="dropdown-item" href="admin_manage_best_practices.php">Best Practices</a></li>
+                                                <li><a class="dropdown-item" href="admin_manage_slider.php">Slider</a></li>
+                                            </ul>
+                                        </div>
                                     </li>
 
                                 </ul>
@@ -228,3 +237,6 @@ if (isset($_SESSION['admin_user'])) {
                 </div>
             </div>
         </div>
+
+
+        

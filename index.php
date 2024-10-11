@@ -1,5 +1,8 @@
 <?php
 include_once("header.php");
+$q = "select * from sliders";
+$count = mysqli_num_rows(mysqli_query($con, $q));
+$result = mysqli_query($con, $q);
 ?>
 
 <div class="container">
@@ -7,15 +10,33 @@ include_once("header.php");
         <div class="col-12">
             <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    <?php
+                    for ($i = 0; $i <= $count - 1; $i++) {
+                    ?>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<?php echo $i; ?>" class="active" aria-current="true" aria-label="Slide <?php echo $i + 1; ?>"></button>
+                    <?php
+                    }
+                    ?>
+
+                    <!-- <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button> -->
                 </div>
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="images/slider/art-of-living-rku-mou.webp" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
+                    <?php
+                    $i = 1;
+                    while ($r = mysqli_fetch_assoc($result)) {
+                    ?>
+                        <div class="carousel-item <?php if ($i == 1) {
+                                                        echo "active";
+                                                    } ?>">
+                            <img src="images/slider/<?php echo $r['img_name']; ?>" class="d-block w-100" alt="...">
+                        </div>
+                    <?php
+                        $i++;
+                    }
+                    ?>
+
+                    <!-- <div class="carousel-item">
                         <img src="images/slider/aria-slider.webp" class="d-block w-100" alt="...">
                     </div>
                     <div class="carousel-item">
@@ -26,7 +47,7 @@ include_once("header.php");
                     </div>
                     <div class="carousel-item">
                         <img src="images/slider/nirf-ranking-slider.webp" class="d-block w-100" alt="...">
-                    </div>
+                    </div> -->
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
