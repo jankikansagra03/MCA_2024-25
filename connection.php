@@ -12,6 +12,7 @@ $con = mysqli_connect("localhost", "root", "", "MCA_2024-25");
 //image slider table
 
 // $q = "create table sliders(id int AUTO_INCREMENT PRIMARY KEY,img_name text(500))";
+// $q = "create table best_practices(id int AUTO_INCREMENT PRIMARY KEY,img_name text(500))";
 
 // if (mysqli_query($con, $q)) {
 //     echo "Table Registration created ";

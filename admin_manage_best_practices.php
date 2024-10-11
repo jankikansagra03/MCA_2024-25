@@ -1,13 +1,13 @@
 <?php
 include_once("header.php");
 include_once('admin_authentication.php');
-$q = "select * from sliders";
+$q = "select * from best_practices";
 $result = mysqli_query($con, $q);
 ?>
 <div class="container">
     <div class="row text-center">
         <div class="col-12 bg-dark text-white p-2 align-center">
-            <h1>Manage Sliders</h1>
+            <h1>Manage Best Practices</h1>
         </div>
     </div>
     <br>
@@ -20,7 +20,7 @@ $result = mysqli_query($con, $q);
 
         </div>
         <div class="col-2" style="text-align: right;">
-            <a href="admin_add_slider_image.php" class="btn btn-dark form-control;"><i class="fas fa-user-plus"></i> Add Slider Image</a>
+            <a href="admin_add_best_practice.php" class="btn btn-dark form-control;"><i class="fas fa-user-plus"></i> Add Best Practices</a>
         </div>
 
     </div>
@@ -44,10 +44,10 @@ $result = mysqli_query($con, $q);
                             <tr>
                                 <td><?php echo $r['id']; ?></td>
                                 <td>
-                                    <img src="images/slider/<?php echo $r['img_name']; ?>" class="img-fluid" height="35%" width="40%" />
+                                    <img src="images/best_practices/<?php echo $r['img_name']; ?>" class="img-fluid" height="35%" width="40%" />
                                 </td>
                                 <td>
-                                    <a href='admin_delete_slider.php?id=<?php echo $r['id'] ?>' class='btn btn-dark'><i class='fas fa-trash'></i></a>
+                                    <a href='admin_delete_best_practice.php?id=<?php echo $r['id'] ?>' class='btn btn-dark'><i class='fas fa-trash'></i></a>
                                 </td>
                             </tr>
                         <?php

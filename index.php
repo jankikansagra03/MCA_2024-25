@@ -3,6 +3,8 @@ include_once("header.php");
 $q = "select * from sliders";
 $count = mysqli_num_rows(mysqli_query($con, $q));
 $result = mysqli_query($con, $q);
+$q1 = "select * from best_practices";
+$result1 = mysqli_query($con, $q1);
 ?>
 
 <div class="container">
@@ -70,7 +72,17 @@ $result = mysqli_query($con, $q);
     </div>
     <br>
     <div class="row g-5">
-        <div class="col-xxl-3 col-xl-3 col-lg-4  col-md-2 col-xs-12 col-sm-12">
+        <?php
+
+        while ($r1 = mysqli_fetch_assoc($result1)) {
+        ?>
+            <div class="col-xxl-3 col-xl-3 col-lg-4  col-md-2 col-xs-12 col-sm-12">
+                <img src="images/best_practices/<?php echo $r1['img_name']; ?>" alt="" class="img-fluid">
+            </div>
+        <?php
+        }
+        ?>
+        <!-- <div class="col-xxl-3 col-xl-3 col-lg-4  col-md-2 col-xs-12 col-sm-12">
             <img src="images/best_practices/KSPCFE_RK University.png" alt="" class="img-fluid">
         </div>
         <div class="col-xxl-3 col-xl-3 col-lg-4  col-md-2 col-xs-12 col-sm-12">
@@ -102,7 +114,7 @@ $result = mysqli_query($con, $q);
         </div>
         <div class="col-xxl-3 col-xl-3 col-lg-4  col-md-2 col-xs-12 col-sm-12">
             <img src="images/best_practices/IIIC_RK University.png" alt="" class="img-fluid">
-        </div>
+        </div> -->
 
 
 
