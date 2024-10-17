@@ -99,6 +99,7 @@ if (isset($_SESSION['admin_user'])) {
                                                 <li><a class="dropdown-item" href="admin_manage_about.php">About Page</a></li>
                                                 <li><a class="dropdown-item" href="admin_manage_best_practices.php">Best Practices</a></li>
                                                 <li><a class="dropdown-item" href="admin_manage_slider.php">Slider</a></li>
+                                                <li><a class="dropdown-item" href="admin_manage_contact.php">Contact Us</a></li>
                                             </ul>
                                         </div>
                                     </li>
@@ -237,6 +238,3 @@ if (isset($_SESSION['admin_user'])) {
                 </div>
             </div>
         </div>
-
-
-        

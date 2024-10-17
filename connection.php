@@ -14,6 +14,26 @@ $con = mysqli_connect("localhost", "root", "", "MCA_2024-25");
 // $q = "create table sliders(id int AUTO_INCREMENT PRIMARY KEY,img_name text(500))";
 // $q = "create table best_practices(id int AUTO_INCREMENT PRIMARY KEY,img_name text(500))";
 
+//About PAge
+
+// $q = "CREATE TABLE about_us (
+//     id INT AUTO_INCREMENT PRIMARY KEY,
+//     content TEXT NOT NULL,
+//     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+//     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+// )";
+
+//inquiry table
+
+// $q = "create table inquiry(
+// id INT AUTO_INCREMENT PRIMARY KEY,
+// fullname char(25),
+// email varchar(50),
+// mobile int(10),
+// message text,
+// reply text,
+// created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+// updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)";
 // if (mysqli_query($con, $q)) {
 //     echo "Table Registration created ";
 // }
