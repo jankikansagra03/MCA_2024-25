@@ -187,6 +187,10 @@ if (isset($_GET['id'])) {
                             <input type="number" class="form-control" id="mobile1" placeholder="1234567890" name="mobile" value="<?php echo $row['mobile_number']; ?>">
                         </div>
                         <br>
+                        <div>
+                            <img src="images/profile_pictures/<?php echo $row['profile_picture']; ?>" alt="" width="50%">
+                        </div>
+                        <br>
                         <div class="form-group">
                             <label for="file1"><b>Select Profile Picture:</b></label>
                             <input type="file" class="form-control" id="file1" name="pic">

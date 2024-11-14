@@ -61,7 +61,7 @@ if (isset($_SESSION['forgot_email'])) {
             $mail->Host = 'smtp.gmail.com'; // Set the SMTP server to send through
             $mail->SMTPAuth = true;
             $mail->Username = 'kansagrajanki@gmail.com'; // SMTP username
-            $mail->Password = ''; // SMTP password
+            $mail->Password = 'Your Password'; // SMTP password
             $mail->SMTPSecure = 'tls';
             $mail->Port = 587;
 
@@ -121,5 +121,3 @@ if (isset($_SESSION['forgot_email'])) {
     }
 }
 ?>
-
-

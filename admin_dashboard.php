@@ -1,15 +1,16 @@
 <?php
-include_once('header.php');
-include_once('admin_authentication.php');
+include_once("header.php");
+include_once("admin_authentication.php");
+
 ?>
 <div>
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <h1 class="text-center">Admin Dashboard</h1>
+                <br>
             </div>
         </div>
-        <br>
         <div class="row">
             <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                 <div class="card bg-dark text-white mb-4">

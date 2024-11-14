@@ -7,10 +7,24 @@ require 'PHPMailer/SMTP.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-
 ?>
 <script>
     $(document).ready(function() {
+        $.validator.addMethod("emailNotRegistered", function(value, element) {
+            var isValid = false;
+            $.ajax({
+                url: 'check_email.php',
+                type: 'POST',
+                data: {
+                    email: value
+                },
+                async: false,
+                success: function(response) {
+                    isValid = (response == 'available');
+                }
+            });
+            return isValid;
+        }, "This email is already registered");
         $("#form1").validate({
             rules: {
                 fn: {
@@ -20,7 +34,8 @@ use PHPMailer\PHPMailer\Exception;
                 },
                 email: {
                     required: true,
-                    email: true
+                    email: true,
+                    emailNotRegistered: true
                 },
                 pswd: {
                     required: true,
@@ -47,7 +62,8 @@ use PHPMailer\PHPMailer\Exception;
                 },
                 pic: {
                     required: true,
-                    accept: "image/*"
+                    accept: "image/*",
+                    filesize: ""
                 }
             },
             messages: {
@@ -58,7 +74,8 @@ use PHPMailer\PHPMailer\Exception;
                 },
                 email: {
                     required: "Please enter your email address",
-                    email: "Please enter a valid email address"
+                    email: "Please enter a valid email address",
+                    emailNotRegistered: "This email is already registered"
                 },
                 pswd: {
                     required: "Please provide a password",
@@ -86,7 +103,8 @@ use PHPMailer\PHPMailer\Exception;
                 },
                 pic: {
                     required: "Please select a profile picture",
-                    accept: "Only image files are allowed"
+                    accept: "Only image files are allowed",
+                    filesize: "Image size must be less than 2 MB"
                 }
             },
             errorElement: "div",
@@ -186,8 +204,9 @@ if (isset($_POST['btn'])) {
     $gen = $_POST['gen'];
     $mobile = $_POST['mobile'];
     $pic = uniqid() . $_FILES['pic']['name'];
+    $token = uniqid();
 
-    $q = "INSERT INTO `registration`(`fullname`, `email`, `password`, `address`, `gender`, `mobile_number`, `profile_picture`) VALUES ('$fn','$email','$pswd','$address','$gen',$mobile,'$pic')";
+    $q = "INSERT INTO `registration`(`fullname`, `email`, `password`, `address`, `gender`, `mobile_number`, `profile_picture`,`token`) VALUES ('$fn','$email','$pswd','$address','$gen',$mobile,'$pic','$token')";
 
     if (mysqli_query($con, $q)) {
         if (!is_dir("images/profile_pictures")) {
@@ -197,30 +216,34 @@ if (isset($_POST['btn'])) {
 
         $mail = new PHPMailer(true);
         try {
+            // Server settings
             $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
-            $mail->SMTPAuth = true;
-            $mail->Username = 'kansagrajanki@gmail.com';
-            $mail->Password = 'your app password';
+            $mail->Host       = 'smtp.gmail.com'; // Replace with your SMTP server
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'kansagrajanki@gmail.com'; // Replace with your email
+            $mail->Password   = 'Your Password'; // Replace with your email password
             $mail->SMTPSecure = 'tls';
-            $mail->Port = 587;
+            $mail->Port       = 587;
 
-            $mail->setFrom('kansagrajanki@gmail.com', 'Janki');
+            // Recipients
+            $mail->setFrom('kansagrajanki@gmail.com', 'Janki Kansagra');
             $mail->addAddress($email, $fn);
 
+            // Content
             $mail->isHTML(true);
-            $mail->Subject = 'Email Verification';
-            $activation_link = "http://localhost/MCA_2024-25/verify_email.php?em=" . $email;
-            $mail->Body    = "<html>
+            $mail->Subject = 'Account Activation Link';
+
+            $activation_link = 'http://localhost/MCA_Project/activate_account.php?email=' . $email . '&token=' . $token;
+            $mail->Body    = "
+            <html>
             <head>
                 <style>
                     body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
                     .container { max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; }
                     h1 { color: black; }
-                    a { text-decoration: none; color: white; }
                     .button { display: inline-block; padding: 10px 20px; background-color: black; color: white; text-decoration: none; border-radius: 5px; }
                     .footer { margin-top: 20px; font-size: 0.8em; color: #777; }
-                    
+                    a { text-decoration: none; color: white; }
                 </style>
             </head>
             <body>
@@ -234,24 +257,22 @@ if (isset($_POST['btn'])) {
                     </div>
                 </div>
             </body>
-            </html>";
-
+            </html>
+            ";
             $mail->send();
+
+            setcookie('success', 'Registration Successful. Please verify your email using the verification link sent to your registered email address.', time() + 5, '/');
         } catch (Exception $e) {
-            // $_SESSION['error'] = "Error in sending email: ". $mail->ErrorInfo;
-            setcookie('error', "Error in sending email: " . $mail->ErrorInfo, time() + 5);
+            setcookie('error', 'Error in Sending Activation Link.', time() + 5, '/');
         }
 
-        // $_SESSION['success'] = "Registration Successfull. VErify your Email using verification link sent to registered Email Address";
-        setcookie('success', 'Registration Successfull. Verify your Email using verification link sent to registered Email Address', time() + 5, "/");
 ?>
-
         <script>
             window.location.href = "login.php";
         </script>
     <?php
     } else {
-        // $_SESSION['error'] = "Error in Registration. Try again."
+
         setcookie('error', 'Error in Registration. Try again.', time() + 5, "/");
     ?>
 

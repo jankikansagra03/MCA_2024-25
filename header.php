@@ -6,14 +6,16 @@ session_start();
 if ($con->connect_error) {
     die("Connection failed: " . $con->connect_error);
 }
-$current_time = date("Y-m-d H:i:s");
-$delete_query = "DELETE FROM password_token WHERE expires_at < '$current_time'";
-mysqli_query($con, $delete_query);
-// setcookie("error", "hjdsgj", time() - 5);
+setcookie("error", "9", time() - 578977, "/");
+// setcookie("error", "9", time() - 5, "/");
 $url = $_SERVER['REQUEST_URI'];
 $parsed_url = parse_url($url);
 $url1 = $parsed_url['path'];
 $parts = explode("/", $url1);
+$current_time = date("Y-m-d H:i:s");
+$delete_query = "DELETE FROM password_token WHERE expires_at < '$current_time'";
+mysqli_query($con, $delete_query);
+// echo $parts[2];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,14 +31,19 @@ $parts = explode("/", $url1);
     <script src="js/jquery-3.7.1.min.js"></script>
     <script src="js/jquery.validate.js"></script>
     <script src="js/additional-methods.js"></script>
-
+    <style>
+        @media (max-width: 768px) {
+            .container {
+                text-align: center;
+            }
+        }
+    </style>
 
 </head>
 <?php
-
-
-if (isset($_SESSION['admin_user'])) {
-    $email = $_SESSION['admin_user'];
+if (isset($_SESSION['admin'])) {
+    //Admin Navbar
+    $email = $_SESSION['admin'];
     $q = "select * from registration where email='$email'";
     $result = mysqli_query($con, $q);
 ?>
@@ -69,6 +76,11 @@ if (isset($_SESSION['admin_user'])) {
                                                                         } ?>" href="manage_users.php">Users</a>
                                     </li>
                                     <li class="nav-item">
+                                        <a class="nav-link text-white <?php if ($parts[2] == "manage_category.php") {
+                                                                            echo "active btn btn-success    ";
+                                                                        } ?>" href="manage_category.php">Categories</a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a class="nav-link text-white <?php if ($parts[2] == "manage_products.php") {
                                                                             echo "active btn btn-success    ";
                                                                         } ?>" href="manage_products.php">Products</a>
@@ -76,7 +88,7 @@ if (isset($_SESSION['admin_user'])) {
                                     <li class="nav-item">
                                         <a class="nav-link text-white <?php if ($parts[2] == "manage_inquiry.php") {
                                                                             echo "active btn btn-success    ";
-                                                                        } ?>" href="manage_inquiry.php">Inquiry</a>
+                                                                        } ?>" href="admin_manage_inquiry.php">Inquiry</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link text-white <?php if ($parts[2] == "manage_orders.php") {
@@ -98,40 +110,43 @@ if (isset($_SESSION['admin_user'])) {
                                             <ul class="dropdown-menu" aria-labelledby="siteSettingsDropdown">
                                                 <li><a class="dropdown-item" href="admin_manage_about.php">About Page</a></li>
                                                 <li><a class="dropdown-item" href="admin_manage_best_practices.php">Best Practices</a></li>
-                                                <li><a class="dropdown-item" href="admin_manage_slider.php">Slider</a></li>
                                                 <li><a class="dropdown-item" href="admin_manage_contact.php">Contact Us</a></li>
+                                                <li><a class="dropdown-item" href="admin_manage_slider.php">Slider</a></li>
+
                                             </ul>
-                                        </div>
-                                    </li>
-
                                 </ul>
-
-                                <?php
-                                while ($r = mysqli_fetch_assoc($result)) {
-                                ?>
-                                    <div class="dropdown">
-
-                                        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <img src="<?php echo "images/profile_pictures/" . $r['profile_picture']; ?>" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px;">&nbsp;&nbsp;&nbsp;&nbsp; <?php echo $r['fullname']; ?>
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <li><a class="dropdown-item" href="admin_change_password.php">Change Password</a></li>
-                                            <li><a class="dropdown-item" href="admin_view_profile.php">View Profile</a></li>
-                                            <li><a class="dropdown-item" href="admin_logout.php">Logout</a></li>
-                                        </ul>
-                                    </div>
-                                <?php
-                                }
-                                ?>
                             </div>
+                            </li>
+                            </ul>
+                            <?php
+                            while ($r = mysqli_fetch_assoc($result)) {
+                            ?>
+                                <div class="dropdown">
+
+                                    <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img src="<?php echo "images/profile_pictures/" . $r['profile_picture']; ?>" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px;">&nbsp;&nbsp;&nbsp;&nbsp; <?php echo $r['fullname']; ?>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <li><a class="dropdown-item" href="admin_change_password.php">Change Password</a></li>
+                                        <li><a class="dropdown-item" href="admin_view_profile.php">View Profile</a></li>
+                                        <li><a class="dropdown-item" href="admin_logout.php">Logout</a></li>
+                                    </ul>
+                                </div>
+                            <?php
+                            }
+                            ?>
                         </div>
-                    </nav>
                 </div>
+                </nav>
             </div>
         </div>
+        </div>
     <?php
-} else if (isset($_SESSION['user_uname'])) {
-} else {
+} else if (isset($_SESSION['user'])) {
+    //User Navbar
+    $email = $_SESSION['user'];
+    $q = "select * from registration where email='$email'";
+    $result = mysqli_query($con, $q);
     ?>
 
         <body>
@@ -146,11 +161,7 @@ if (isset($_SESSION['admin_user'])) {
                                 </button>
                                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                     <ul class="navbar-nav me-auto mb-2 mb-90">
-                                        <li class="nav-item">
-                                            <a class="nav-link <?php if ($parts[2] == "index.php") {
-                                                                    echo "active btn btn-success    ";
-                                                                } ?>" aria-current="page" href="index.php">Home</a>
-                                        </li>
+
                                         <li class="nav-item">
                                             <a class="nav-link <?php if ($parts[2] == "gallery.php") {
                                                                     echo "active btn btn-success    ";
@@ -166,75 +177,127 @@ if (isset($_SESSION['admin_user'])) {
                                                                     echo "active btn btn-success    ";
                                                                 } ?>" href="contact.php">Contact Us</a>
                                         </li>
-                                        <!-- <li class="nav-item">
-                                    <a class="nav-link" href="Register.php">Link</a>
-                                </li> -->
-
-                                        <!-- <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Dropdown
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item" href="#">Action</a></li>
-                                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                                        <li>
-                                            <hr class="dropdown-divider">
+                                        <li class="nav-item">
+                                            <a class="nav-link <?php if ($parts[2] == "view_cart.php") {
+                                                                    echo "active btn btn-success    ";
+                                                                } ?>" href="view_cart.php">Cart</a>
                                         </li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li class="nav-item">
+                                            <a class="nav-link <?php if ($parts[2] == "view_wishlist.php") {
+                                                                    echo "active btn btn-success    ";
+                                                                } ?>" href="view_wishlist.php">WishList</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link <?php if ($parts[2] == "user_order.php") {
+                                                                    echo "active btn btn-success    ";
+                                                                } ?>" href="user_order.php">My Orders</a>
+                                        </li>
+
+
                                     </ul>
-                                </li> -->
-                                        <!-- <li class="nav-item">
-                                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                                </li> -->
-                                    </ul>
-                                    <form class="d-flex">
-                                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                                        <button class="btn btn-success" type="submit">Search</button>
-                                    </form>
-                                    &nbsp;&nbsp;
-                                    <a href="register.php"> <button class="btn btn-success" type="button">Sign Up</button></a>&nbsp;&nbsp;
-                                    <a href="login.php"><button class="btn btn-success" type="button">Sign In</button></a>&nbsp;
+                                    <?php
+                                    while ($r = mysqli_fetch_assoc($result)) {
+                                    ?>
+                                        <div class="dropdown">
+
+                                            <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <img src="<?php echo "images/profile_pictures/" . $r['profile_picture']; ?>" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px;">&nbsp;&nbsp;&nbsp;&nbsp; <?php echo $r['fullname']; ?>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <li><a class="dropdown-item" href="user_change_password.php">Change Password</a></li>
+                                                <li><a class="dropdown-item" href="user_view_profile.php">View Profile</a></li>
+                                                <li><a class="dropdown-item" href="user_logout.php">Logout</a></li>
+                                            </ul>
+                                        </div>
+
+                                    <?php
+                                    }
+                                    ?>
                                 </div>
                             </div>
                         </nav>
                     </div>
                 </div>
             </div>
-            <br>
         <?php
-    }
+    } else {
+        //Guest Navbar
         ?>
 
+            <body>
+                <div class="container-fluid">
+                    <div class="row bg-dark">
+                        <div class="col-12">
+                            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                                <div class="container-fluid">
+                                    <a class="navbar" href="index.php"><img src="images/logo_white.png" height="10%" width="35%" /> </a>
+                                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                        <span class="navbar-toggler-icon"></span>
+                                    </button>
+                                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                        <ul class="navbar-nav me-auto mb-2 mb-90">
+                                            <li class="nav-item">
+                                                <a class="nav-link <?php if ($parts[2] == "index.php") {
+                                                                        echo "active btn btn-success    ";
+                                                                    } ?>" aria-current="page" href="index.php">Home</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link <?php if ($parts[2] == "gallery.php") {
+                                                                        echo "active btn btn-success    ";
+                                                                    } ?>" href="gallery.php">Gallery</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link <?php if ($parts[2] == "about.php") {
+                                                                        echo "active btn btn-success    ";
+                                                                    } ?>" href="about.php">About Us</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link <?php if ($parts[2] == "contact.php") {
+                                                                        echo "active btn btn-success    ";
+                                                                    } ?>" href="contact.php">Contact Us</a>
+                                            </li>
 
-        <br>
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <?php
-                    if (isset($_COOKIE['success'])) {
-                    ?>
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <strong>Success!</strong> <?php echo $_COOKIE['success']; ?>
-                            <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
-
-                            </button>
+                                        </ul>
+                                        <form class="d-flex">
+                                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                                            <button class="btn btn-success" type="submit">Search</button>
+                                        </form>
+                                        &nbsp;&nbsp;
+                                        <a href="register.php"> <button class="btn btn-success" type="button">Sign Up</button></a>&nbsp;&nbsp;
+                                        <a href="login.php"><button class="btn btn-success" type="button">Sign In</button></a>&nbsp;
+                                    </div>
+                                </div>
+                            </nav>
                         </div>
-                    <?php
-                    }
-                    if (isset($_COOKIE['error'])) {
-                    ?>
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <strong>Error!</strong> <?php echo $_COOKIE['error']; ?>
-                            <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
+                    </div>
+                </div>
+            <?php
+        }
+            ?>
+            <br>
+            <div class="container">
+                <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-8">
 
-                            </button>
-                        </div>
-                    <?php
-                    }
+                        <?php
+                        if (isset($_COOKIE['success']) || isset($_COOKIE['error'])) {
+                            $message = isset($_COOKIE['success']) ? $_COOKIE['success'] : $_COOKIE['error'];
+                            $alertType = isset($_COOKIE['success']) ? 'success' : 'danger';
+                            $strongText = isset($_COOKIE['success']) ? 'Success!' : 'Error!';
+                        ?>
+                            <div class="alert alert-<?php echo $alertType; ?> alert-dismissible fade show" role="alert">
+                                <strong><?php echo $strongText; ?></strong> <?php echo htmlspecialchars($message); ?>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        <?php
+                            // Clear the cookie after displaying the message
+                            setcookie('success', '', time() - 3600, '/');
+                            setcookie('error', '', time() - 3600, '/');
+                        }
 
-                    setcookie('success', '', time() - 3600, '/');
-                    setcookie('error', '', time() - 3600, '/');
-                    ?>
+                        ?>
+
+                    </div>
                 </div>
             </div>
-        </div>

@@ -1,9 +1,9 @@
 <?php
 include_once("header.php");
-include_once('admin_authentication.php');
+include_once("admin_authentication.php");
 
-if (isset($_SESSION['admin_user'])) {
-    $email = $_SESSION['admin_user'];
+if (isset($_SESSION['admin'])) {
+    $email = $_SESSION['admin'];
     $q = "select * from registration where email='$email'";
     $result = mysqli_query($con, $q);
     $row = mysqli_fetch_assoc($result);
@@ -11,7 +11,7 @@ if (isset($_SESSION['admin_user'])) {
 ?>
 <div class="container">
     <div class="row text-center">
-        <div class="col-12 bg-dark text-white p-4 align-center">
+        <div class="col-12 bg-dark text-white p-2 align-center">
             <h1>Edit Profile</h1>
         </div>
     </div>
@@ -127,6 +127,9 @@ if (isset($_SESSION['admin_user'])) {
                                     <option value="Other" <?php if ($row['gender'] == 'Other') echo 'selected'; ?>>Other</option>
                                 </select>
                             </div>
+                            <div>
+                                <img src="images/profile_pictures/<?php echo $row['profile_picture']; ?>" alt="" width="50%">
+                            </div>
                             <div class="mb-3">
                                 <label for="profile_picture" class="form-label">Profile Picture</label>
                                 <input type="file" class="form-control" id="profile_picture" name="profile_picture">
@@ -142,8 +145,7 @@ if (isset($_SESSION['admin_user'])) {
 
 
 <?php
-include_once("admin_footer.php");
-
+include_once('admin_footer.php');
 if (isset($_POST['updt_btn'])) {
     $fullname = $_POST['fullname'];
     $email = $_POST['email'];
@@ -175,7 +177,7 @@ if (isset($_POST['updt_btn'])) {
         </script>";
     <?php
     } else {
-        setcookie("error", "Error in updating profie", time() + 5, "/");
+        setcookie("success", "Profile updated successfully", time() + 5, "/");
     ?>
         <script>
             window.location.href = 'admin_edit_profile.php';

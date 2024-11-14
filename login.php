@@ -1,4 +1,5 @@
 <?php
+
 include_once("header.php");
 
 ?>
@@ -69,8 +70,6 @@ include_once("header.php");
                 <br>
                 <br>
                 <input type="submit" class="btn btn-success " value="Submit" name="lgn_btn" />
-
-
             </form>
         </div>
     </div>

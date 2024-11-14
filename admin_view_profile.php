@@ -1,13 +1,12 @@
 <?php
 include_once("header.php");
-include_once('admin_authentication.php');
+include_once("admin_authentication.php");
 ?>
-<br>
 
 <div>
     <?php
-    if (isset($_SESSION['admin_user'])) {
-        $email = $_SESSION['admin_user'];
+    if (isset($_SESSION['admin'])) {
+        $email = $_SESSION['admin'];
         $q = "select * from registration where email='$email'";
         $result = mysqli_query($con, $q);
         $row = mysqli_fetch_assoc($result);
@@ -15,7 +14,7 @@ include_once('admin_authentication.php');
     ?>
     <div class="container">
         <div class="row text-center">
-            <div class="col-12 bg-dark text-white p-4 align-center">
+            <div class="col-12 bg-dark text-white p-2 align-center">
                 <h1>Profile Information</h1>
             </div>
         </div>
@@ -33,7 +32,7 @@ include_once('admin_authentication.php');
                             <div class="col-md-8">
                                 <h5 class="card-title"><?php echo $row['fullname']; ?></h5>
 
-
+                                
                                 <p class="card-text">Email: <?php echo $row['email']; ?></p>
                                 <p class="card-text">Phone: <?php echo $row['mobile_number']; ?></p>
                                 <p class="card-text">Address: <?php echo $row['address']; ?></p>

@@ -232,9 +232,8 @@ include_once("admin_authentication.php");
     </div>
 </div>
 </div>
-
 <?php
-include_once("admin_footer.php");
+include_once('admin_footer.php');
 if (isset($_POST['updt_about'])) {
     $about_content = $_POST['editor_content'];
     $q1 = "select * from about_us";
@@ -250,15 +249,15 @@ if (isset($_POST['updt_about'])) {
     } else {
         $q = "UPDATE about_us SET content='$about_content'";
         if (mysqli_query($con, $q)) {
-            setcookie("success", 'Page Content Updated', time() + 5, "/");
+            setcookie("success", 'Page content updated', time() + 5, "/");
         } else {
             setcookie("error", 'Failed to update page content', time() + 5, "/");
         }
     }
-    ?>
+?>
     <script>
-    window.location.href = "admin_manage_about.php";
-</script>
+        window.location.href = "admin_manage_about.php";
+    </script>
 <?php
 }
 ?>

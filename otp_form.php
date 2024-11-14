@@ -59,6 +59,7 @@ include_once("header.php");
                     const timerDisplay = document.getElementById('timer');
                     const resendButton = document.getElementById('resend_otp');
 
+
                     // Function to start the countdown
                     function startCountdown() {
                         const countdown = setInterval(() => {

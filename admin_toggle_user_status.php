@@ -1,23 +1,21 @@
 <?php
 include_once("header.php");
-include_once('admin_authentication.php');
+include_once("admin_authentication.php");
 $id = $_GET['id'];
 $status = $_GET['status'];
 
-if ($status == "Active") {
-    $updt = "update registration set status='Inactive' where id=$id";
+$q = "update registration set status='$status' where `id`=$id";
+
+if (mysqli_query($con, $q)) {
+    setcookie('success', "User Status updated to $status", time() + 5, "/");
 } else {
-    $updt = "update registration set status='Active' where id=$id";
+    setcookie('error', "Error in updating user status", time() + 5, "/");
 }
-
-if (mysqli_query($con, $updt)) {
-    setcookie("success", "User status updated", time() + 5, "/");
 ?>
-    <script>
-        window.location.href = "manage_users.php";
-    </script>
-<?php
-}
+<script>
+    window.location.href = "manage_users.php";
+</script>
 
+<?php
 include_once("admin_footer.php");
 ?>

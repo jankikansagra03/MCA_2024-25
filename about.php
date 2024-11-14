@@ -11,17 +11,21 @@ include_once("header.php");
     </div>
     <br>
     <div class="row p-4">
-        <div class="col-12">
-            <?php
-            $q = "select * from about_us";
-            $result = mysqli_query($con, $q);
-            while ($r = mysqli_fetch_assoc($result)) {
-                echo $r['content'];
+        <?php
+        $query = "SELECT * FROM about_us";
+        $result = mysqli_query($con, $query);
+
+        if ($result && mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+
+                echo $row['content'];
             }
-            ?>
-        </div>
+        }
+
+        ?>
     </div>
 </div>
 
 <?php
 include_once("footer.php");
+?>

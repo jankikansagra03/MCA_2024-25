@@ -1,6 +1,6 @@
 <?php
 include_once("header.php");
-include_once('admin_authentication.php');
+include_once("admin_authentication.php");
 ?>
 <script>
     $(document).ready(function() {
@@ -47,10 +47,11 @@ include_once('admin_authentication.php');
         });
     });
 </script>
-<br>
+
+
 <div class="container">
     <div class="row text-center">
-        <div class="col-12 bg-dark text-white p-4 align-center">
+        <div class="col-12 bg-dark text-white p-2 align-center">
             <h1>Change Password</h1>
         </div>
     </div>
@@ -63,17 +64,17 @@ include_once('admin_authentication.php');
             <form action="admin_change_password.php" method="post" id="form1">
                 <div class="form-group">
                     <label for="old_password"><b>Old Password:</b></label>
-                    <input type="text" class="form-control" id="old_password" placeholder="Enter old password" name="old_password" required>
+                    <input type="password" class="form-control" id="old_password" placeholder="Enter old password" name="old_password" required>
                 </div>
                 <br>
                 <div class="form-group">
                     <label for="new_password"><b>New Password:</b></label>
-                    <input type="text" class="form-control" id="new_password" placeholder="Enter new password" name="new_password" required>
+                    <input type="password" class="form-control" id="new_password" placeholder="Enter new password" name="new_password" required>
                 </div>
                 <br>
                 <div class="form-group">
                     <label for="confirm_password"><b>Confirm New Password:</b></label>
-                    <input type="text" class="form-control" id="confirm_password" placeholder="Confirm new password" name="confirm_password" required>
+                    <input type="password" class="form-control" id="confirm_password" placeholder="Confirm new password" name="confirm_password" required>
                 </div>
                 <br>
                 <button type="submit" class="btn btn-dark" name="change_password">Change Password</button>
@@ -82,28 +83,28 @@ include_once('admin_authentication.php');
     </div>
 </div>
 
+
 <?php
-
-include_once("admin_footer.php");
+include_once('admin_footer.php');
 if (isset($_POST['change_password'])) {
-    $old_pwd = $_POST['old_password'];
-    $new_pwd = $_POST['new_password'];
-    $em = $_SESSION['admin_user'];
-
-    $q = "select * from registration where `email`='$em'";
-    $result = mysqli_query($con, $q);
-    while ($r = mysqli_fetch_assoc($result)) {
-        if ($r['password'] == $old_pwd) {
-            $q = "UPDATE registration SET password='$new_pwd' WHERE email='$em'";
-            if (mysqli_query($con, $q)) {
-                setcookie('success', 'Password changed successfully', time() + 5, "/");
+    $old_password = $_POST['old_password'];
+    $new_password = $_POST['new_password'];
+    $confirm_password = $_POST['confirm_password'];
+    $email = $_SESSION['admin'];
+    $query = "SELECT password FROM registration WHERE email = '$email'";
+    $result = mysqli_query($con, $query);
+    while ($row = mysqli_fetch_assoc($result)) {
+        if ($row['password'] == $old_password) {
+            $update_query = "UPDATE registration SET password = '$new_password' WHERE email = '$email'";
+            if (mysqli_query($con, $update_query)) {
+                setcookie("success", "Password changed successfully", time() + 5, "/");
 ?>
                 <script>
                     window.location.href = "admin_dashboard.php";
                 </script>
             <?php
             } else {
-                setcookie('error', 'Failed to change password', time() + 5, "/");
+                setcookie("error", "Failed to change password", time() + 5, "/");
             ?>
                 <script>
                     window.location.href = "admin_change_password.php";
@@ -111,7 +112,7 @@ if (isset($_POST['change_password'])) {
             <?php
             }
         } else {
-            setcookie('error', 'Incorrect Old Password', time() + 5, "/");
+            setcookie("error", "Incorrect Old Password", time() + 5, "/");
             ?>
             <script>
                 window.location.href = "admin_change_password.php";
@@ -120,5 +121,3 @@ if (isset($_POST['change_password'])) {
         }
     }
 }
-
-?>

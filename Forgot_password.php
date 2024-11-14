@@ -53,10 +53,7 @@ use PHPMailer\PHPMailer\Exception;
                     <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
                 </div>
                 <br>
-
-                <input type="submit" class="btn btn-success " value="Submit" name="frgt_pwd_btn" />
-
-
+                <input type="submit" class="btn btn-success " value="Submit" name="frgt_btn" />
             </form>
         </div>
     </div>
@@ -65,48 +62,69 @@ use PHPMailer\PHPMailer\Exception;
 </div>
 
 <?php
-include_once("footer.php");
-if (isset($_POST['frgt_pwd_btn'])) {
-    $email = $_POST['email'];
 
+include_once("footer.php");
+
+if (isset($_POST['frgt_btn'])) {
+    $email = $_POST["email"];
+
+    // Check if the email is registered in the registration table
     $check_query = "SELECT * FROM registration WHERE email = '$email'";
     $check_result = mysqli_query($con, $check_query);
-    if (mysqli_num_rows($check_result) > 0) {
-        $query = "SELECT * FROM password_token WHERE email = '$email'";
-        $result = mysqli_query($con, $query);
-        if (mysqli_num_rows($result) > 0) {
-            setcookie('error', "OTP is already sent to email address. new otp will be generated after old OTP expires.", time() + 5, "/");
+
+    if ($check_result && mysqli_num_rows($check_result) == 0) {
+        // Email is not registered, display error message
+        setcookie('error', "This email is not registered.", time() + 5, "/");
 ?>
-            <script>
-                window.location.href = "otp_form.php";
-            </script>
-            exit;
-            <?php
-        } else {
-            $otp = rand(100000, 999999);
+        <script>
+            window.location.href = "Forgot_password.php";
+        </script>
+    <?php
+        exit; // Stop further execution
+    }
 
-            // Use PHPMailer to send the OTP
+    // Check if the email already exists in the password_token table
+    $query = "SELECT * FROM password_token WHERE email = '$email'";
+    $result = mysqli_query($con, $query);
 
 
-            $mail = new PHPMailer();
-            try {
-                //Server settings
-                $mail->isSMTP();
-                $mail->Host = 'smtp.gmail.com'; // Set the SMTP server to send through
-                $mail->SMTPAuth = true;
-                $mail->Username = 'kansagrajanki@gmail.com'; // SMTP username
-                $mail->Password = ''; // SMTP password
-                $mail->SMTPSecure = 'tls';
-                $mail->Port = 587;
+    if ($result && mysqli_num_rows($result) > 0) {
+        // Email exists, display error message and redirect to OTP form
+        setcookie('error', "An OTP has already been sent to this email. New OTP will be generated once current OTP expires.", time() + 5, "/");
+    ?>
+        <script>
+            window.location.href = "otp_form.php";
+        </script>
+        <?php
+    } else {
 
-                //Recipients
-                $mail->setFrom('kansagrajanki@gmail.com', 'Janki Kansagra');
-                $mail->addAddress($email);
 
-                // Content
-                $mail->isHTML(true);
-                $mail->Subject = 'Your OTP for Password Reset';
-                $mail->Body = "
+
+        // Generate OTP
+        $otp = rand(100000, 999999);
+
+        // Use PHPMailer to send the OTP
+
+
+        $mail = new PHPMailer();
+        try {
+            //Server settings
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com'; // Set the SMTP server to send through
+            $mail->SMTPAuth = true;
+            $mail->Username = 'kansagrajanki@gmail.com'; // SMTP username
+            $mail->Password = 'Your Password'; // SMTP password
+            $mail->SMTPSecure = 'tls';
+            $mail->Port = 587;
+
+            //Recipients
+            $mail->setFrom('kansagrajanki@gmail.com', 'Janki Kansagra');
+            $mail->addAddress($email);
+
+            // Content
+            $mail->isHTML(true);
+            $mail->Subject = 'Your OTP for Password Reset';
+            $mail->Body = "
         <html>
         <head>
             <style>
@@ -132,38 +150,26 @@ if (isset($_POST['frgt_pwd_btn'])) {
         </html>
         ";
 
-                $mail->send();
+            $mail->send();
 
-                // Store the email, OTP, and timestamps in the database
-                $email_time = date("Y-m-d H:i:s");
-                $expiry_time = date("Y-m-d H:i:s", strtotime('+1 minutes')); // OTP valid for 10 minutes
-                $query = "INSERT INTO  password_token  (email, otp, created_at, expires_at) VALUES ('$email', '$otp', '$email_time', '$expiry_time')";
-                mysqli_query($con, $query);
+            // Store the email, OTP, and timestamps in the database
+            $email_time = date("Y-m-d H:i:s");
+            $expiry_time = date("Y-m-d H:i:s", strtotime('+1 minutes')); // OTP valid for 10 minutes
+            $query = "INSERT INTO  password_token  (email, otp, created_at, expires_at) VALUES ('$email', '$otp', '$email_time', '$expiry_time')";
+            mysqli_query($con, $query);
 
 
-                $_SESSION['forgot_email'] = $email;
-                setcookie('success', "OTP for resetting your password is sent to the registered mail address", time() + 2, "/")
-            ?>
-                <script>
-                    window.location.href = "otp_form.php";
-                </script>
-            <?php
-                exit;
-            } catch (Exception $e) {
-                setcookie('error', $mail->ErrorInfo, time() + 2, "/");
-            ?>
-                <script>
-                    window.location.href = "Forgot_password.php ";
-                </script>
-        <?php
-            }
-        }
-    } else {
-        setcookie('error', "Email is not registered", time() + 5, "/");
+            $_SESSION['forgot_email'] = $email;
+            setcookie('success', "OTP for resetting your password is sent to the registered mail address", time() + 2, "/")
         ?>
-        <script>
-            window.location.href = "Forgot_password.php";
-        </script>
+            <script>
+                window.location.href = "otp_form.php";
+            </script>
 <?php
+            exit;
+        } catch (Exception $e) {
+            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        }
     }
 }
+?>

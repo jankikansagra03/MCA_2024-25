@@ -69,18 +69,17 @@ include_once("header.php");
     <div class="row p-4">
 
         <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
-            <h1>Address</h1>
-            <h4><i class="fa-solid fa-location-dot"></i> Main Campus</h4>
-            RK University, <br> Bhavnagar Highway, Kasturbadham, <br> Rajkot, Gujarat, India 360020
-            <br><br>
+            <?php
+            $query = "SELECT * FROM contact";
+            $result = mysqli_query($con, $query);
 
-            <h4><i class="fa-solid fa-location-dot"></i> City Campus</h4>
-            New 150ft Ring Road,<br> Mota Mawa,Kalawad Road,<br> Rajkot, Gujarat, India 360004.
-            <br><br>
-            <h4><i class="fa-solid fa-phone-volume"></i> Contact Details </h4>
-            +91-9712489122 <br>
-            +91-9925714450
+            if ($result && mysqli_num_rows($result) > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
 
+                    echo $row['content'];
+                }
+            }
+            ?>
         </div>
         <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
             <h1>Contact Form</h1>

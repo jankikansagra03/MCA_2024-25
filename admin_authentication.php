@@ -1,10 +1,9 @@
 <?php
-include_once("header.php");
-
-if (!isset($_SESSION['admin_user'])) {
+if (!isset($_SESSION['admin'])) {
 ?>
     <script>
         window.location.href = "login.php";
     </script>
 <?php
 }
+?>

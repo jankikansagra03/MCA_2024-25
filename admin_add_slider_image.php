@@ -14,7 +14,7 @@ include_once("admin_authentication.php");
             },
             messages: {
                 pic: {
-                    required: "Please select an image",
+                    required: "Please select a profile picture",
                     accept: "Only image files are allowed"
                 }
             },

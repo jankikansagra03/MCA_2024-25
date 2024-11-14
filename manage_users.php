@@ -1,5 +1,6 @@
 <?php
 include_once("header.php");
+include_once("admin_authentication.php");
 ?>
 <div class="container">
 
@@ -10,22 +11,30 @@ include_once("header.php");
     </div>
     <br>
     <div class="row">
-        <div class="col-6" style="text-align: right;">
-        </div>
+        <div class="row mb-3 justify-content-center">
+            <!-- Wrapper for Search and Add User Button with Offset on Large Screens -->
+            <div class="col-lg-6 offset-lg-6 col-12">
+                <div class="row">
+                    <!-- Search Bar -->
+                    <div class="col-md-8 col-12 mb-2 mb-md-0">
+                        <form method="GET" action="">
+                            <div class="input-group">
+                                <input type="text" name="search" class="form-control" placeholder="Search..." value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
+                                <div class="input-group-append">
+                                    <button class="btn btn-dark" type="submit">Search</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
 
-        <div class="col-4 style=" text-align: right;">
-            <!-- <input id="myInput" type="text" placeholder="Search.." class="form-control"> -->
-            <form method="GET" action="">
-                <div class="input-group mb-3">
-                    <input type="text" name="search" class="form-control" placeholder="Search..." value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
-                    <div class="input-group-append">
-                        <button class="btn btn-dark" type="submit">Search</button>
+                    <!-- Add User Button -->
+                    <div class="col-md-4 col-12 text-md-right text-center">
+                        <a href="admin_add_user.php" class="btn btn-dark form-control form-control-md">
+                            <i class="fas fa-user-plus"></i> Add User
+                        </a>
                     </div>
                 </div>
-            </form>
-        </div>
-        <div class="col-2" style="text-align: right;">
-            <a href="admin_add_user.php" class="btn btn-dark form-control;"><i class="fas fa-user-plus"></i> Add User</a>
+            </div>
         </div>
 
     </div>
@@ -33,6 +42,22 @@ include_once("header.php");
     <div class="row">
         <div class="col-12">
             <div class="table-responsive">
+                <style>
+                    .table-responsive {
+                        display: block;
+                        width: 100%;
+                        overflow-x: auto;
+                        -webkit-overflow-scrolling: touch;
+                        /* For smooth scrolling on touch devices */
+                        white-space: nowrap;
+                    }
+
+                    .table th,
+                    .table td {
+                        white-space: nowrap;
+                        /* Ensure text doesn't wrap, useful for large content */
+                    }
+                </style>
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -61,7 +86,7 @@ include_once("header.php");
                     $total_records = mysqli_num_rows($result);
 
                     // Pagination logic
-                    $records_per_page = 5;
+                    $records_per_page = 10;
                     $total_pages = ceil($total_records / $records_per_page);
                     $page = isset($_GET['page']) ? $_GET['page'] : 1;
                     $start_from = ($page - 1) * $records_per_page;
@@ -73,6 +98,7 @@ include_once("header.php");
 
                     <tbody id="myTable">
                         <?php
+
                         // Display the filtered and paginated records
                         while ($row = mysqli_fetch_assoc($result)) {
                             echo "<tr>";
@@ -82,17 +108,19 @@ include_once("header.php");
                             echo "<td>" . $row['mobile_number'] . "</td>";
                             echo "<td>" . $row['status'] . "</td>";
                             echo "<td>";
+                            echo "<a href='admin_edit_user.php?id=" . $row['id'] . "' class='btn btn-warning'><i class='fas fa-edit'></i> Edit</a>&nbsp&nbsp;";
+                            echo "<a href='admin_delete_user.php?id=" . $row['id'] . "' class='btn btn-danger'><i class='fas fa-trash'></i> Delete</a>&nbsp&nbsp;";
+                            echo "<a href='admin_view_user.php?id=" . $row['id'] . "' class='btn btn-info'><i class='fas fa-eye'></i> View</a>&nbsp&nbsp;";
+
+                            echo "<a href='admin_view_user_cart.php?id=" . $row['id'] . "' class='btn btn-primary'><i class='fas fa-shopping-cart'></i> Cart</a>&nbsp&nbsp;";
                             if ($row['status'] == 'Active') {
-                                echo "<a href='admin_toggle_user_status.php?id=" . $row['id'] . "&status=Active' class='btn btn-dark'><i class='fas fa-xmark'></i></a>&nbsp&nbsp;";
+                                echo "<a href='admin_toggle_user_status.php?id=" . $row['id'] . "&status=Inactive' class='btn btn-success'><i class='fas fa-toggle-on'></i> Deactivate</a>&nbsp&nbsp;";
                             } else if ($row['status'] == 'Inactive') {
-                                echo "<a href='admin_toggle_user_status.php?id=" . $row['id'] . "&status=Inactive' class='btn btn-dark'><i class='fas fa-check'></i></a>&nbsp&nbsp;";
+                                echo "<a href='admin_toggle_user_status.php?id=" . $row['id'] . "&status=Active' class='btn btn-dark'><i class='fas fa-toggle-off'></i> Activate</a>&nbsp&nbsp;";
                             } else {
-                                echo "<a class='btn btn-dark'><i class='fa-solid fa-user-xmark'></i></a>&nbsp&nbsp;";
+                                echo "<a class='btn btn-secondary'><i class='fa-solid fa-user-xmark'></i> Deleted</a>&nbsp&nbsp;";
                             }
-                            echo "<a href='admin_view_user.php?id=" . $row['id'] . "' class='btn btn-dark'><i class='fas fa-eye'></i></a>&nbsp&nbsp;";
-                            echo "<a href='admin_edit_user.php?id=" . $row['id'] . "' class='btn btn-dark'><i class='fas fa-edit'></i></a>&nbsp&nbsp;";
-                            echo "<a href='admin_delete_user.php?id=" . $row['id'] . "' class='btn btn-dark'><i class='fas fa-trash'></i></a>&nbsp&nbsp;";
-                            echo "<a href='admin_view_user_cart.php?id=" . $row['id'] . "' class='btn btn-dark'><i class='fas fa-shopping-cart'></i></a>&nbsp&nbsp;";
+
                             echo "</td>";
                             echo "</tr>";
                         }
@@ -128,8 +156,7 @@ include_once("header.php");
                                 echo "<li class='page-item " . ($i == $page ? 'active' : '') . "'><a class='page-link' href='?page=" . $i . "&search=" . $search . "'>" . $i . "</a></li>";
                             }
                             if ($page < $total_pages) {
-                                echo "<li class='page-item'>
-                                <a class='page-link' href='?page=" . ($page + 1) . "&search=" . $search . "'>Next</a></li>";
+                                echo "<li class='page-item'><a class='page-link' href='?page=" . ($page + 1) . "&search=" . $search . "'>Next</a></li>";
                             }
                             ?>
                         </ul>

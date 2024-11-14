@@ -1,9 +1,8 @@
 <?php
-session_start();
+include_once("header.php");
+include_once("admin_authentication.php");
 
-// session_destroy();
-unset($_SESSION['admin_user']);
-setcookie('success', "user Logged out", time() + 5, "/");
+unset($_SESSION['admin']);
 ?>
 <script>
     window.location.href = "login.php";

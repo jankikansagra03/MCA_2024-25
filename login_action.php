@@ -14,14 +14,14 @@ if (isset($_POST['lgn_btn'])) {
                 if ($r['status'] == 'Active') {
                     if ($r['role'] == 'Admin') {
                         setcookie('success', 'Login Successful', time() + 5, "/");
-                        $_SESSION['admin_user'] = $em;
+                        $_SESSION['admin'] = $em;
 ?>
                         <script>
                             window.location.href = "admin_dashboard.php";
                         </script>
                     <?php
                     } else {
-                        $_SESSION['user_uname'] = $email;
+                        $_SESSION['user'] = $em;
                         setcookie('success', 'Login Successful', time() + 5, "/");
                     ?>
                         <script>
@@ -55,5 +55,4 @@ if (isset($_POST['lgn_btn'])) {
 
 <?php
     }
-    $row = mysqli_fetch_array($result);
 }
