@@ -31,6 +31,7 @@ if (isset($_REQUEST['id'])) {
                     <p><strong>Quantity Available:</strong> <?php echo $product['quantity']; ?></p>
                     <p><strong>Discount:</strong> <?php echo $product['discount']; ?>%</p>
                     <a href="add_to_cart.php?id=<?php echo $product['id']; ?>"><button class="btn btn-dark">Add to Cart</button></a>
+                    <a href="add_to_wishlist.php?id=<?php echo $product['id']; ?>"><button class="btn btn-danger">Add to Wishlist</button></a>
                 </div>
             </div>
             <br>

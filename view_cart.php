@@ -48,6 +48,7 @@ $result  = mysqli_query($con, $q);
                             $quantity = $cart_item['quantity'];
                             $price = $cart_item['total_price'] / $quantity;
                             $total = $quantity * $price;
+
                     ?>
                             <tr>
                                 <td><?php echo $i; ?></td>
@@ -74,14 +75,41 @@ $result  = mysqli_query($con, $q);
                         <td></td>
                         <td></td>
                         <td></td>
+                        <td></td>
                         <th>Cart Total</th>
                         <th><?php echo $cart_total; ?> </th>
                     </tr>
                 </tbody>
             </table>
-            <a href="checkout.php" class="btn btn-success">Proceed to Checkout</a>
+            <form action="view_cart.php" method="post">
+                <div>
+                    <label for="offer_code"><b>Offer Code:</b></label>
+                    <input type="text" id="offer_code" name="offer_code" class="form-control" placeholder="Enter your offer code">
+                    <span class='text-danger' style="display:none"                          >Invalid offer code. Please try again.</span>
+                </div>
+                <br>
+                <button type="submit" name="apply" value="Apply" class="btn btn-dark" name="verify">Apply</button>
+            </form>
+            <br>
+            <a href="checkout.php" class="btn btn-dark">Proceed to Checkout</a>
         </div>
     </div>
 </div>
 <?php
 include_once('admin_footer.php');
+if (isset($_POST['verify'])) {
+    $offer = strtoupper($_POST['offer_code']);
+
+    // Start Generation Here
+    $query = "SELECT * FROM offers WHERE code='$offer'";
+    $result = mysqli_query($con, $query);
+
+    if (mysqli_num_rows($result) > 0) {
+        // Offer code exists
+        setcookie('success', 'Offer code applied successfully.', time() + 5, '/');
+    } else {
+
+        // Offer code does not exist
+        setcookie('error', 'Invalid offer code. Please try again.', time() + 5, '/');
+    }
+}

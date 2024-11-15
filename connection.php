@@ -101,6 +101,20 @@ $con = mysqli_connect("localhost", "root", "", "MCA_Project");
 //     FOREIGN KEY (product_id) REFERENCES products(id)
 // )";
 
+// $q = "CREATE TABLE offers (
+//     id INT AUTO_INCREMENT PRIMARY KEY,
+//     offer_name VARCHAR(255) NOT NULL,
+// offer_description text not null,
+//     discount_percentage DECIMAL(5, 2) NOT NULL,
+//     cart_total int not null,
+//     max_discount int not null,
+//     start_date DATETIME NOT NULL,
+//     end_date DATETIME NOT NULL,
+//     status ENUM('Active', 'Inactive') NOT NULL DEFAULT 'Active',
+//     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+//     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+// )";
+
 
 // if (mysqli_query($con, $q)) {
 //     echo "Table Registration created ";

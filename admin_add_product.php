@@ -335,7 +335,7 @@ if (isset($_POST['btn'])) {
     $discount = $_POST['discount'];
     $target_dir = "images/products/";
     $main_image = uniqid() . $_FILES['mainImage']['name'];
-
+    $discounted_price = $price - ($discount * $price / 100);
 
     // Loop through each file in the $_FILES array
     if (!empty($_FILES['otherImages']['name'][0])) {
@@ -350,7 +350,7 @@ if (isset($_POST['btn'])) {
     $other_images = implode(",", $extra_images);
 
 
-    $insert_query = "INSERT INTO products (product_name, main_image, other_images, category_id, price, description, status, quantity, discount)  VALUES ('$product_name', '$main_image', '$other_images', $category_id, $price, '$description', '$status', $quantity, $discount)";
+    $insert_query = "INSERT INTO products (product_name, main_image, other_images, category_id, price, description, status, quantity, discount,discounted_price)  VALUES ('$product_name', '$main_image', '$other_images', $category_id, $price, '$description', '$status', $quantity, $discount,$discounted_price)";
 
     // Execute the insert query
     if (mysqli_query($con, $insert_query)) {
