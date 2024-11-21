@@ -13,6 +13,12 @@ $parsed_url = parse_url($url);
 $url1 = $parsed_url['path'];
 $parts = explode("/", $url1);
 $current_time = date("Y-m-d H:i:s");
+$query = "UPDATE offers SET status='Inactive' WHERE NOT ('$current_time' BETWEEN start_date AND end_date)";
+
+mysqli_query($con, $query);
+$query = "UPDATE offers SET status='Active' WHERE ('$current_time' BETWEEN start_date AND end_date)";
+
+mysqli_query($con, $query);
 $delete_query = "DELETE FROM password_token WHERE expires_at < '$current_time'";
 mysqli_query($con, $delete_query);
 // echo $parts[2];

@@ -116,6 +116,32 @@ $con = mysqli_connect("localhost", "root", "", "MCA_Project");
 // )";
 
 
+
+// $q = "CREATE TABLE orders (
+//     id INT AUTO_INCREMENT PRIMARY KEY,
+//     order_id VARCHAR(255) NOT NULL,
+//      sub_order_id varchar(255) NOT NULL,
+//     product_id INT NOT NULL,
+//     rating DECIMAL(2, 1) DEFAULT NULL,
+//     review TEXT DEFAULT NULL,
+//     email VARCHAR(50) NOT NULL,
+//     delivery_address varchar(255) NOT NULL,
+//     total_amount DECIMAL(10, 2) NOT NULL,
+//     delivery_status ENUM('Ordered','Shipped','Delivered','Return','Replaced') not null default 'Ordered',
+//     payment_status ENUM('Pending', 'Completed', 'Failed') NOT NULL DEFAULT 'Pending',
+//      offer_name varchar(20),
+//     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+//     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+//     FOREIGN KEY (product_id) REFERENCES products(id)
+// )";
+
+// $q = "CREATE TABLE address (
+//     id INT AUTO_INCREMENT PRIMARY KEY,
+//      email VARCHAR(50) NOT NULL,
+//         delivery_address varchar(255) NOT NULL,
+//     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+//     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+// )";
 // if (mysqli_query($con, $q)) {
 //     echo "Table Registration created ";
 // }

@@ -5,15 +5,44 @@ $email = $_SESSION['user'];
 $q = "select * from registration where email='$email'";
 $result  = mysqli_query($con, $q);
 ?>
+<script>
+    $(document).ready(function() {
+        $("#offerCodeForm").validate({
+            rules: {
+                offer_code: {
+                    required: true,
+                }
+            },
+            messages: {
+                offer_code: {
+                    required: "Please enter an offer code",
+                }
+            },
+            errorElement: "div",
+            errorPlacement: function(error, element) {
+                error.addClass("invalid-feedback");
+                error.insertAfter(element);
+            },
+            highlight: function(element, errorClass, validClass) {
+                $(element).addClass("is-invalid").removeClass("is-valid");
+            },
+            unhighlight: function(element, errorClass, validClass) {
+                $(element).addClass('is-valid').removeClass('is-invalid');
+            }
+
+        });
+    });
+</script>
+
 <div class="container">
     <div class="row text-center">
         <div class="col-12 bg-dark text-white p-2 align-center">
 
-            <h1>
+            <h2>
                 <?php
                 $cart_total = 0;
                 while ($r = mysqli_fetch_assoc($result))
-                    echo $r['fullname']; ?>'s Shopping Cart</h1>
+                    echo $r['fullname']; ?>'s Shopping Cart</h2>
         </div>
     </div>
     <br>
@@ -81,35 +110,126 @@ $result  = mysqli_query($con, $q);
                     </tr>
                 </tbody>
             </table>
-            <form action="view_cart.php" method="post">
-                <div>
-                    <label for="offer_code"><b>Offer Code:</b></label>
-                    <input type="text" id="offer_code" name="offer_code" class="form-control" placeholder="Enter your offer code">
-                    <span class='text-danger' style="display:none"                          >Invalid offer code. Please try again.</span>
+            <div class="row p-4">
+
+                <div class="col-4">
+                    <form action="view_cart.php" method="post" id="offerCodeForm">
+                        <div>
+                            <label for=" offer_code"><b>Offer Code:</b></label>
+                            <input type="text" id="offer_code" name="offer_code" class="form-control" placeholder="Enter your offer code">
+                            <span id="err"></span>
+                        </div>
+                        <br>
+                        <button type="submit" name="apply" value="Apply" class="btn btn-dark">Apply</button>
+                    </form>
+                    <br>
+                    <div class="card" style="margin-top: 20px; padding: 15px; border: 1px solid #ccc;">
+                        <h5 class="card-title">Discount Details</h5>
+                        <p class="card-text">Offer Code: <strong><span id="offer_code">-</span></strong></p>
+                        <p class="card-text">Discount Percentage: <strong><span id="discount_percentage">-</span></strong></p>
+                        <p class="card-text">Discount Amount: <strong><span id="discount_amount">-</span></strong></p>
+                        <p class="card-text">New Cart Total: <strong><span id="new_cart_total">-</span></strong></p>
+                    </div>
                 </div>
-                <br>
-                <button type="submit" name="apply" value="Apply" class="btn btn-dark" name="verify">Apply</button>
-            </form>
-            <br>
-            <a href="checkout.php" class="btn btn-dark">Proceed to Checkout</a>
+
+
+                <div class="col-8">
+                    <div class="row">
+                        <h5>Select Shipping Address</h5>
+                        <div class="col-12">
+                            <?php
+                            $q = "select * from address where email = '$email'";
+                            $result_address = mysqli_query($con, $q);
+                            while ($r_address = mysqli_fetch_assoc($result_address)) {
+                            ?>
+                                <div class="col-6">
+                                    <div class="card" style="border: 1px solid black;padding-left:10px; ">
+                                        <?php echo $r_address['delivery_address']; ?>
+                                        <br>
+                                    </div>
+                                    <br>
+                                    <a href="edit_delivery_address.php?id=<?php echo $r_address['id']; ?>"><input type="button" class="btn btn-dark" value="Edit Address"></a>
+                                    <a href="edit_delivery_address.php?id=<?php echo $r_address['id']; ?>"><input type="button" class="btn btn-dark" value="Deliver to this Address"></a>
+                                </div>
+                            <?php
+                            }
+                            ?>
+                            <br>
+                            <br>
+                            <a href="add_delivery_address.php"><input type="button" class="btn btn-dark" value="Add Another Address"></a>
+                            <br>
+                            <br>
+                            <form action="payment_razorpay_action.php" method="post">
+                                <input type="submit" class="btn btn-dark" value="Proceed to Checkout" name="payment">
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-<?php
-include_once('admin_footer.php');
-if (isset($_POST['verify'])) {
-    $offer = strtoupper($_POST['offer_code']);
+    <?php
+    $_SESSION['total'] = $cart_total;
+    include_once('admin_footer.php');
+    if (isset($_POST['apply'])) {
 
-    // Start Generation Here
-    $query = "SELECT * FROM offers WHERE code='$offer'";
-    $result = mysqli_query($con, $query);
+        $offer = strtoupper($_POST['offer_code']);
 
-    if (mysqli_num_rows($result) > 0) {
-        // Offer code exists
-        setcookie('success', 'Offer code applied successfully.', time() + 5, '/');
-    } else {
+        // Start Generation Here
+        $query = "SELECT * FROM offers WHERE offer_name='$offer' and status='Active'";
+        $result = mysqli_query($con, $query);
 
-        // Offer code does not exist
-        setcookie('error', 'Invalid offer code. Please try again.', time() + 5, '/');
+        if (mysqli_num_rows($result) > 0) {
+    ?>
+            <script>
+                document.getElementById('err').style.color = "green";
+                document.getElementById('err').innerHTML = "Offercode applied successfully";
+            </script>
+
+            <?php
+            $offer_data = mysqli_fetch_assoc($result);
+            $discount_percentage = $offer_data['discount_percentage'];
+            $discount_amount = ($cart_total * $discount_percentage) / 100;
+            $order_total = $offer_data['cart_total'];
+            $max_discount = $offer_data['max_discount'];
+            $offer = $offer_data['offer_name'];
+            // $offer = $offer_data['offer_name'];
+            if ($cart_total > $order_total) {
+
+
+                if ($discount_amount > $max_discount) {
+                    $discount_amount = $max_discount;
+                } else {
+                    $discount_amount = ($cart_total * $discount_percentage) / 100;
+                }
+                $new_cart_total = $cart_total - $discount_amount;
+
+            ?>
+                <script>
+                    document.getElementById('offer_code').innerHTML = '<?php echo $offer; ?>';
+                    document.getElementById('discount_percentage').innerHTML = '<?php echo $discount_percentage; ?>%';
+                    document.getElementById('discount_amount').innerHTML = 'Rs. <?php echo number_format($discount_amount, 2); ?>';
+                    document.getElementById('new_cart_total').innerHTML = 'Rs. <?php echo number_format($new_cart_total, 2); ?>';
+                </script>
+            <?php
+            } else {
+            ?>
+                <script>
+                    document.getElementById('err').style.color = "red";
+                    document.getElementById('err').innerHTML = "To avail this offer cart total must be greater than <?php echo $order_total; ?>.";
+                </script>
+            <?php
+            }
+            $_SESSION['total'] = $new_cart_total;
+            // Offer code exists
+        } else {
+            // Offer code does not exist
+            ?>
+            <script>
+                document.getElementById('err').style.color = "red";
+                document.getElementById('err').innerHTML = "Invalid Code";
+            </script>
+    <?php
+        }
     }
-}
