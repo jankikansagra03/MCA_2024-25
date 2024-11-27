@@ -113,7 +113,7 @@ if (isset($_POST['frgt_btn'])) {
             $mail->Host = 'smtp.gmail.com'; // Set the SMTP server to send through
             $mail->SMTPAuth = true;
             $mail->Username = 'kansagrajanki@gmail.com'; // SMTP username
-            $mail->Password = 'Your Password'; // SMTP password
+            $mail->Password = 'App password of your gmail'; // SMTP password
             $mail->SMTPSecure = 'tls';
             $mail->Port = 587;
 

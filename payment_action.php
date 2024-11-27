@@ -38,7 +38,7 @@ if (isset($_POST['payment'])) {
     $payer = new Payer();
     $payer->setPaymentMethod('paypal');
 
-    $clientId = 'Your paypal client id';
+    $clientId = 'AeImKoFAo8I3noigrDuOI349k86gMJc86FWeoZrqgCVVRfAx6sd-gyHoTlehTFahS66-XmO9n46-AZml';
     $secret = 'Your paypal secret kay';
     $apiContext = new \PayPal\Rest\ApiContext(
         new \PayPal\Auth\OAuthTokenCredential(

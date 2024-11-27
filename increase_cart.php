@@ -5,7 +5,10 @@ $email = $_SESSION['user'];
 if (isset($_REQUEST['id'])) {
     $id = $_REQUEST['id'];
     $q = "select * from cart where email='$email' and  product_id=$id";
-    echo $q;
+    $product = "select * from products where id=$id";
+    // echo $product;
+    $product_result = mysqli_fetch_assoc(mysqli_query($con, $product));
+    //echo $q;
     $result = mysqli_query($con, $q);
     while ($r = mysqli_fetch_assoc($result)) {
         if ($r['quantity'] == 5) {
@@ -14,14 +17,27 @@ if (isset($_REQUEST['id'])) {
             $total = $r['total_price'];
             $price_per_product = $total / $r['quantity'];
             $quantity = $r['quantity'] + 1;
-            $final_price = $quantity * $price_per_product;
+            // echo $product_result['quantity'] . "KKKKKKKKKKKK";
+            if ($quantity > $product_result['quantity']) {
+                $quantity--;
 
-            $updt = "update cart set quantity=$quantity,total_price=$final_price where email='$email' and  product_id=$id";
-            echo $updt;
-            if (mysqli_query($con, $updt)) {
-                setcookie('success', "Cart updated successfully", time() + 5, "/");
+                setcookie('error', "product not available in stock", time() + 5, "/");
+                // exit();
+?>
+                <script>
+                    window.location.href = "view_cart.php";
+                </script>
+<?php
             } else {
-                setcookie('error', 'Error in updating cart', time() + 5, "/");
+                $final_price = $quantity * $price_per_product;
+
+                $updt = "update cart set quantity=$quantity,total_price=$final_price where email='$email' and  product_id=$id";
+                // echo $updt;
+                if (mysqli_query($con, $updt)) {
+                    setcookie('success', "Cart updated successfully", time() + 5, "/");
+                } else {
+                    setcookie('error', 'Error in updating cart', time() + 5, "/");
+                }
             }
         }
     }

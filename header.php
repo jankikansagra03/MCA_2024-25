@@ -37,13 +37,7 @@ mysqli_query($con, $delete_query);
     <script src="js/jquery-3.7.1.min.js"></script>
     <script src="js/jquery.validate.js"></script>
     <script src="js/additional-methods.js"></script>
-    <style>
-        @media (max-width: 768px) {
-            .container {
-                text-align: center;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 
 </head>
 <?php

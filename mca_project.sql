@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 14, 2024 at 07:33 AM
+-- Generation Time: Nov 27, 2024 at 03:25 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.8
 
@@ -40,6 +40,30 @@ CREATE TABLE `about_us` (
 
 INSERT INTO `about_us` (`id`, `content`, `created_at`, `updated_at`) VALUES
 (1, '<p>We believe that RKU is a place where “Change” happens. Our students are challenged and motivated to change their perspectives by our faculties. Our faculties constantly change their pedagogies and instructional approaches to match industry requirements and student needs. Our students go on to change the society with the knowledge they have acquired at RKU.</p><p>It is virtuous cycle of “change” that happens only in the beautiful and serene campus of RKU.</p><p>Join us if you want to change your thinking and your perspectives.</p><p>Join us if you want to change the world.</p><h3>Vision</h3><p>To be a leading educational organization imparting holistic education to help students become responsible world citizens who are sensitive to the needs of the society.</p><h3>Mission</h3><p>To develop a community of students and academicians who are a part of world class education system which is developed in a manner which supports the intellectual, professional and moral growth of the students leading to advancement of human knowledge through enterprising research.</p>', '2024-10-11 09:49:42', '2024-10-14 18:40:05');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `address`
+--
+
+CREATE TABLE `address` (
+  `id` int NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `delivery_address` varchar(255) NOT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `address`
+--
+
+INSERT INTO `address` (`id`, `email`, `delivery_address`, `created_at`, `updated_at`) VALUES
+(2, 'jankikansagra12@gmail.com', 'Janki Kansagra<br>BapaSitaram Chowk, Mavdi Gam<br>Mavdi Chowk, 150 Ft. Ring Road<br>Rajkot-360005<br>Gujarat<br>India<br>Mobile: 1472583690<br>Email::janki.kansagra@rku.ac.in', '2024-11-21 12:18:08', '2024-11-23 11:15:37'),
+(3, 'jankikansagra12@gmail.com', 'Pratyush Faldu<br>A-301 Bilipatr Apartment <br>Mavdi Chowk<br>Rajkot-360004<br>Gujarat<br>India<br>Mobile: 1478963250<br>Email::pratyushf31@northstar.edu.in', '2024-11-21 12:25:36', '2024-11-21 12:25:36'),
+(4, 'jankikansagra12@gmail.com', 'abc<br>hsgdasdhad<br>swqweee<br>ghashahq-147147<br>Gujarat<br>India<br>Mobile: 1471471470<br>Email::janki@gmail.com', '2024-11-21 12:53:56', '2024-11-21 12:53:56'),
+(5, 'jankikansagra12@gmail.com', 'JAnki<br>dfgvbhjn<br>dcfvgbhnjmk<br>dcfvgbhjnmk-360004<br>ertgh<br>rdftghj<br>Mobile: 1478523690<br>Email::jankikansagra12@gmail.com', '2024-11-27 08:28:55', '2024-11-27 08:29:11');
 
 -- --------------------------------------------------------
 
@@ -88,8 +112,7 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`id`, `email`, `product_id`, `quantity`, `total_price`) VALUES
-(8, 'jankikansagra12@gmail.com', 6, 1, 2000),
-(9, 'jankikansagra12@gmail.com', 6, 1, 2000);
+(22, 'jankikansagra12@gmail.com', 8, 2, 9000);
 
 -- --------------------------------------------------------
 
@@ -170,6 +193,70 @@ INSERT INTO `inquiry` (`id`, `fullname`, `email`, `mobile`, `message`, `reply`, 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `offers`
+--
+
+CREATE TABLE `offers` (
+  `id` int NOT NULL,
+  `offer_name` varchar(255) NOT NULL,
+  `discount_percentage` int NOT NULL,
+  `cart_total` int NOT NULL,
+  `max_discount` int NOT NULL,
+  `start_date` datetime NOT NULL,
+  `end_date` datetime NOT NULL,
+  `status` enum('Active','Inactive') NOT NULL DEFAULT 'Active',
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `offer_description` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `offers`
+--
+
+INSERT INTO `offers` (`id`, `offer_name`, `discount_percentage`, `cart_total`, `max_discount`, `start_date`, `end_date`, `status`, `created_at`, `updated_at`, `offer_description`) VALUES
+(1, 'OFF10', 10, 2000, 200, '2024-11-16 02:48:06', '2024-11-30 23:00:00', 'Active', '2024-11-15 08:18:41', '2024-11-22 13:01:30', ''),
+(2, 'DIWALI20', 20, 10000, 500, '2024-11-15 00:00:00', '2024-11-21 18:47:17', 'Inactive', '2024-11-15 08:46:09', '2024-11-22 07:59:25', 'Get a mximum disount of 500 rs on a total purchase of 10000.');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` int NOT NULL,
+  `order_id` varchar(255) NOT NULL,
+  `sub_order_id` varchar(255) NOT NULL,
+  `product_id` int NOT NULL,
+  `quantity` int NOT NULL,
+  `rating` decimal(2,1) DEFAULT NULL,
+  `review` text,
+  `email` varchar(50) NOT NULL,
+  `delivery_address` varchar(255) NOT NULL,
+  `total_amount` decimal(10,2) NOT NULL,
+  `offer_name` varchar(20) DEFAULT NULL,
+  `discount_amount` int NOT NULL,
+  `actual_amount` int NOT NULL,
+  `delivery_status` enum('Ordered','Shipped','Delivered','Return','Replaced') NOT NULL DEFAULT 'Ordered',
+  `payment_status` enum('Pending','Completed','Failed') NOT NULL DEFAULT 'Pending',
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `order_id`, `sub_order_id`, `product_id`, `quantity`, `rating`, `review`, `email`, `delivery_address`, `total_amount`, `offer_name`, `discount_amount`, `actual_amount`, `delivery_status`, `payment_status`, `created_at`, `updated_at`) VALUES
+(1, 'order_PQ22cc9dJNWcBC', 'order_PQ22cc9dJNWcBC-6', 6, 3, NULL, NULL, 'jankikansagra12@gmail.com', 'Janki Kansagra<br>BapaSitaram Chowk, Mavdi Gam<br>Mavdi Chowk, 150 Ft. Ring Road<br>Rajkot-360005<br>Gujarat<br>India<br>Mobile: 1472583690<br>Email::janki.kansagra@rku.ac.in', '5700.00', 'OFF10', 85, 5615, 'Ordered', 'Pending', '2024-11-26 23:57:00', '2024-11-26 23:57:00'),
+(2, 'order_PQ22cc9dJNWcBC', 'order_PQ22cc9dJNWcBC-7', 7, 4, NULL, NULL, 'jankikansagra12@gmail.com', 'Janki Kansagra<br>BapaSitaram Chowk, Mavdi Gam<br>Mavdi Chowk, 150 Ft. Ring Road<br>Rajkot-360005<br>Gujarat<br>India<br>Mobile: 1472583690<br>Email::janki.kansagra@rku.ac.in', '7840.00', 'OFF10', 118, 7722, 'Ordered', 'Pending', '2024-11-26 23:57:00', '2024-11-26 23:57:00'),
+(3, 'order_PQAmZK9VjZGVXd', 'order_PQAmZK9VjZGVXd-7', 7, 1, NULL, NULL, 'jankikansagra12@gmail.com', 'JAnki<br>dfgvbhjn<br>dcfvgbhnjmk<br>dcfvgbhjnmk-360004<br>ertgh<br>rdftghj<br>Mobile: 1478523690<br>Email::jankikansagra12@gmail.com', '1960.00', 'OFF10', 192, 1768, 'Ordered', 'Pending', '2024-11-27 08:30:33', '2024-11-27 08:30:33'),
+(4, 'order_PQAmZK9VjZGVXd', 'order_PQAmZK9VjZGVXd-9', 9, 1, NULL, NULL, 'jankikansagra12@gmail.com', 'JAnki<br>dfgvbhjn<br>dcfvgbhnjmk<br>dcfvgbhjnmk-360004<br>ertgh<br>rdftghj<br>Mobile: 1478523690<br>Email::jankikansagra12@gmail.com', '285.00', 'OFF10', 28, 257, 'Ordered', 'Pending', '2024-11-27 08:30:33', '2024-11-27 08:30:33');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `password_token`
 --
 
@@ -198,6 +285,7 @@ CREATE TABLE `products` (
   `quantity` int NOT NULL DEFAULT '0',
   `status` char(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'Active',
   `discount` int DEFAULT '0',
+  `discounted_price` int NOT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -206,11 +294,12 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `product_name`, `main_image`, `other_images`, `category_id`, `price`, `description`, `quantity`, `status`, `discount`, `created_at`, `updated_at`) VALUES
-(6, 'Oppo F21 Pro', '673440fb640ecdownload (4).jpg', '673440fb640f4download (8).jpg,673440fb640f6download (9).jpg,673440fb640f8download (10).jpg', 2, '2000.00', 'fgffffffffffffffffffffffffffff', 5, 'Active', 5, '2024-11-13 11:32:35', '2024-11-13 14:50:36'),
-(7, 'Samsung TV 54\"', '673441d023901download (15).jpg', '673441d023910download (11).jpg,673441d023915download (12).jpg,673441d023917download (13).jpg,673441d023919download (14).jpg,673441d02391adownload (16).jpg,673441d02391bdownload (17).jpg', 5, '2000.00', 'reeeeeeeeeeeeeeeeeeeeeeeee', 5, 'Active', 2, '2024-11-13 11:36:08', '2024-11-13 14:50:39'),
-(8, 'Vivo', '67344856f0a81download (6).jpg', '67344856f0a8edownload (3).jpg,67344856f0a94download (4).jpg,67344856f0a96download (5).jpg', 2, '5000.00', '', 5, 'Active', 10, '2024-11-13 12:03:58', '2024-11-13 12:03:58'),
-(9, 'Headphones', '67345eb2d1ae8download (23).jpg', '67345eb2d1af7download (24).jpg,67345eb2d1afedownload (25).jpg,67345eb2d1b00download (26).jpg,67345eb2d1b01images (2).jpg,67345eb2d1b03images (3).jpg,67345eb2d1b04images (4).jpg', 3, '300.00', '<ul><li>good</li></ul>', 5, 'Active', 0, '2024-11-13 13:39:22', '2024-11-13 13:39:22');
+INSERT INTO `products` (`id`, `product_name`, `main_image`, `other_images`, `category_id`, `price`, `description`, `quantity`, `status`, `discount`, `discounted_price`, `created_at`, `updated_at`) VALUES
+(6, 'Oppo F21 Pro', '673440fb640ecdownload (4).jpg', '673440fb640f4download (8).jpg,673440fb640f6download (9).jpg,673440fb640f8download (10).jpg', 2, '2000.00', 'fgffffffffffffffffffffffffffff', 5, 'Active', 5, 1900, '2024-11-13 11:32:35', '2024-11-27 08:17:17'),
+(7, 'Samsung TV 54\"', '673441d023901download (15).jpg', '673441d023910download (11).jpg,673441d023915download (12).jpg,673441d023917download (13).jpg,673441d023919download (14).jpg,673441d02391adownload (16).jpg,673441d02391bdownload (17).jpg', 5, '2000.00', 'reeeeeeeeeeeeeeeeeeeeeeeee', 0, 'Active', 2, 1960, '2024-11-13 11:36:08', '2024-11-27 08:30:33'),
+(8, 'Vivo', '67344856f0a81download (6).jpg', '67344856f0a8edownload (3).jpg,67344856f0a94download (4).jpg,67344856f0a96download (5).jpg', 2, '5000.00', '', 0, 'Active', 10, 4500, '2024-11-13 12:03:58', '2024-11-27 08:25:35'),
+(9, 'Headphones', '67345eb2d1ae8download (23).jpg', '67345eb2d1af7download (24).jpg,67345eb2d1afedownload (25).jpg,67345eb2d1b00download (26).jpg,67345eb2d1b01images (2).jpg,67345eb2d1b03images (3).jpg,67345eb2d1b04images (4).jpg', 3, '300.00', '<ul><li>good</li></ul>', 4, 'Active', 5, 285, '2024-11-13 13:39:22', '2024-11-27 08:30:33'),
+(10, 'Television LG', '6736bf4f1cfa6download (17).jpg', '6736bf4f1cfaedownload (13).jpg,6736bf4f1cfafdownload (14).jpg,6736bf4f1cfb0download (15).jpg,6736bf4f1cfb1download (16).jpg', 5, '5000.00', '<p>qwswwqwq</p>', 5, 'Active', 5, 4750, '2024-11-15 08:56:07', '2024-11-15 08:56:07');
 
 -- --------------------------------------------------------
 
@@ -291,7 +380,7 @@ CREATE TABLE `wishlist` (
 --
 
 INSERT INTO `wishlist` (`id`, `email`, `product_id`, `created_at`, `updated_at`) VALUES
-(1, 'jankikansagra12@gmail.com', 6, '2024-11-14 00:44:23', '2024-11-14 00:44:23');
+(3, 'jankikansagra12@gmail.com', 7, '2024-11-15 09:17:31', '2024-11-15 09:17:31');
 
 --
 -- Indexes for dumped tables
@@ -301,6 +390,12 @@ INSERT INTO `wishlist` (`id`, `email`, `product_id`, `created_at`, `updated_at`)
 -- Indexes for table `about_us`
 --
 ALTER TABLE `about_us`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `address`
+--
+ALTER TABLE `address`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -334,6 +429,19 @@ ALTER TABLE `contact`
 --
 ALTER TABLE `inquiry`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `offers`
+--
+ALTER TABLE `offers`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_id` (`product_id`);
 
 --
 -- Indexes for table `password_token`
@@ -379,6 +487,12 @@ ALTER TABLE `about_us`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `address`
+--
+ALTER TABLE `address`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `best_practices`
 --
 ALTER TABLE `best_practices`
@@ -388,7 +502,7 @@ ALTER TABLE `best_practices`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `category_master`
@@ -409,6 +523,18 @@ ALTER TABLE `inquiry`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `offers`
+--
+ALTER TABLE `offers`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `password_token`
 --
 ALTER TABLE `password_token`
@@ -418,7 +544,7 @@ ALTER TABLE `password_token`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `registration`
@@ -436,7 +562,7 @@ ALTER TABLE `sliders`
 -- AUTO_INCREMENT for table `wishlist`
 --
 ALTER TABLE `wishlist`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
@@ -447,6 +573,12 @@ ALTER TABLE `wishlist`
 --
 ALTER TABLE `cart`
   ADD CONSTRAINT `product` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Constraints for table `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
 
 --
 -- Constraints for table `products`

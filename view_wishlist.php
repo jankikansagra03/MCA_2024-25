@@ -20,6 +20,22 @@ $result = mysqli_query($con, $q);
     <br>
     <div class="row">
         <div class="col-12">
+            <style>
+                .table-responsive {
+                    display: block;
+                    width: 100%;
+                    overflow-x: auto;
+                    -webkit-overflow-scrolling: touch;
+                    /* For smooth scrolling on touch devices */
+                    white-space: nowrap;
+                }
+
+                .table th,
+                .table td {
+                    white-space: nowrap;
+                    /* Ensure text doesn't wrap, useful for large content */
+                }
+            </style>
             <table class="table table-striped">
                 <thead>
                     <tr>

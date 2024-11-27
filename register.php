@@ -221,7 +221,7 @@ if (isset($_POST['btn'])) {
             $mail->Host       = 'smtp.gmail.com'; // Replace with your SMTP server
             $mail->SMTPAuth   = true;
             $mail->Username   = 'kansagrajanki@gmail.com'; // Replace with your email
-            $mail->Password   = 'Your Password'; // Replace with your email password
+            $mail->Password   = 'App password of your gmail'; // Replace with your email password
             $mail->SMTPSecure = 'tls';
             $mail->Port       = 587;
 
