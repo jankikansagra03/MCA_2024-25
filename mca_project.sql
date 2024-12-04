@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 27, 2024 at 03:25 AM
+-- Generation Time: Dec 04, 2024 at 03:10 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.8
 
@@ -112,7 +112,8 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`id`, `email`, `product_id`, `quantity`, `total_price`) VALUES
-(22, 'jankikansagra12@gmail.com', 8, 2, 9000);
+(22, 'jankikansagra12@gmail.com', 8, 2, 9000),
+(43, 'jankikansagra12@gmail.com', 6, 1, 1900);
 
 -- --------------------------------------------------------
 
@@ -215,7 +216,7 @@ CREATE TABLE `offers` (
 --
 
 INSERT INTO `offers` (`id`, `offer_name`, `discount_percentage`, `cart_total`, `max_discount`, `start_date`, `end_date`, `status`, `created_at`, `updated_at`, `offer_description`) VALUES
-(1, 'OFF10', 10, 2000, 200, '2024-11-16 02:48:06', '2024-11-30 23:00:00', 'Active', '2024-11-15 08:18:41', '2024-11-22 13:01:30', ''),
+(1, 'OFF10', 10, 2000, 200, '2024-11-16 02:48:06', '2024-12-26 23:00:00', 'Active', '2024-11-15 08:18:41', '2024-11-30 10:17:27', ''),
 (2, 'DIWALI20', 20, 10000, 500, '2024-11-15 00:00:00', '2024-11-21 18:47:17', 'Inactive', '2024-11-15 08:46:09', '2024-11-22 07:59:25', 'Get a mximum disount of 500 rs on a total purchase of 10000.');
 
 -- --------------------------------------------------------
@@ -240,6 +241,7 @@ CREATE TABLE `orders` (
   `actual_amount` int NOT NULL,
   `delivery_status` enum('Ordered','Shipped','Delivered','Return','Replaced') NOT NULL DEFAULT 'Ordered',
   `payment_status` enum('Pending','Completed','Failed') NOT NULL DEFAULT 'Pending',
+  `payment_mode` char(12) NOT NULL DEFAULT 'Online',
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -248,11 +250,24 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `order_id`, `sub_order_id`, `product_id`, `quantity`, `rating`, `review`, `email`, `delivery_address`, `total_amount`, `offer_name`, `discount_amount`, `actual_amount`, `delivery_status`, `payment_status`, `created_at`, `updated_at`) VALUES
-(1, 'order_PQ22cc9dJNWcBC', 'order_PQ22cc9dJNWcBC-6', 6, 3, NULL, NULL, 'jankikansagra12@gmail.com', 'Janki Kansagra<br>BapaSitaram Chowk, Mavdi Gam<br>Mavdi Chowk, 150 Ft. Ring Road<br>Rajkot-360005<br>Gujarat<br>India<br>Mobile: 1472583690<br>Email::janki.kansagra@rku.ac.in', '5700.00', 'OFF10', 85, 5615, 'Ordered', 'Pending', '2024-11-26 23:57:00', '2024-11-26 23:57:00'),
-(2, 'order_PQ22cc9dJNWcBC', 'order_PQ22cc9dJNWcBC-7', 7, 4, NULL, NULL, 'jankikansagra12@gmail.com', 'Janki Kansagra<br>BapaSitaram Chowk, Mavdi Gam<br>Mavdi Chowk, 150 Ft. Ring Road<br>Rajkot-360005<br>Gujarat<br>India<br>Mobile: 1472583690<br>Email::janki.kansagra@rku.ac.in', '7840.00', 'OFF10', 118, 7722, 'Ordered', 'Pending', '2024-11-26 23:57:00', '2024-11-26 23:57:00'),
-(3, 'order_PQAmZK9VjZGVXd', 'order_PQAmZK9VjZGVXd-7', 7, 1, NULL, NULL, 'jankikansagra12@gmail.com', 'JAnki<br>dfgvbhjn<br>dcfvgbhnjmk<br>dcfvgbhjnmk-360004<br>ertgh<br>rdftghj<br>Mobile: 1478523690<br>Email::jankikansagra12@gmail.com', '1960.00', 'OFF10', 192, 1768, 'Ordered', 'Pending', '2024-11-27 08:30:33', '2024-11-27 08:30:33'),
-(4, 'order_PQAmZK9VjZGVXd', 'order_PQAmZK9VjZGVXd-9', 9, 1, NULL, NULL, 'jankikansagra12@gmail.com', 'JAnki<br>dfgvbhjn<br>dcfvgbhnjmk<br>dcfvgbhjnmk-360004<br>ertgh<br>rdftghj<br>Mobile: 1478523690<br>Email::jankikansagra12@gmail.com', '285.00', 'OFF10', 28, 257, 'Ordered', 'Pending', '2024-11-27 08:30:33', '2024-11-27 08:30:33');
+INSERT INTO `orders` (`id`, `order_id`, `sub_order_id`, `product_id`, `quantity`, `rating`, `review`, `email`, `delivery_address`, `total_amount`, `offer_name`, `discount_amount`, `actual_amount`, `delivery_status`, `payment_status`, `payment_mode`, `created_at`, `updated_at`) VALUES
+(1, 'order_PQ22cc9dJNWcBC', 'order_PQ22cc9dJNWcBC-6', 6, 3, '5.0', 'Nice', 'jankikansagra12@gmail.com', 'Janki Kansagra<br>BapaSitaram Chowk, Mavdi Gam<br>Mavdi Chowk, 150 Ft. Ring Road<br>Rajkot-360005<br>Gujarat<br>India<br>Mobile: 1472583690<br>Email::janki.kansagra@rku.ac.in', '5700.00', 'OFF10', 85, 5615, 'Ordered', 'Completed', 'Online', '2024-11-26 23:57:00', '2024-11-28 12:52:08'),
+(2, 'order_PQ22cc9dJNWcBC', 'order_PQ22cc9dJNWcBC-7', 7, 4, '4.0', 'Very good product at reasonable price.', 'jankikansagra12@gmail.com', 'Janki Kansagra<br>BapaSitaram Chowk, Mavdi Gam<br>Mavdi Chowk, 150 Ft. Ring Road<br>Rajkot-360005<br>Gujarat<br>India<br>Mobile: 1472583690<br>Email::janki.kansagra@rku.ac.in', '7840.00', 'OFF10', 118, 7722, 'Ordered', 'Completed', 'Online', '2024-11-26 23:57:00', '2024-12-02 12:08:13'),
+(3, 'order_PQAmZK9VjZGVXd', 'order_PQAmZK9VjZGVXd-7', 7, 1, '5.0', 'very cost effective ', 'jankikansagra12@gmail.com', 'JAnki<br>dfgvbhjn<br>dcfvgbhnjmk<br>dcfvgbhjnmk-360004<br>ertgh<br>rdftghj<br>Mobile: 1478523690<br>Email::jankikansagra12@gmail.com', '1960.00', 'OFF10', 192, 1768, 'Ordered', 'Completed', 'Online', '2024-11-27 08:30:33', '2024-12-02 12:09:36'),
+(4, 'order_PQAmZK9VjZGVXd', 'order_PQAmZK9VjZGVXd-9', 9, 1, '5.0', 'good product', 'jankikansagra12@gmail.com', 'JAnki<br>dfgvbhjn<br>dcfvgbhnjmk<br>dcfvgbhjnmk-360004<br>ertgh<br>rdftghj<br>Mobile: 1478523690<br>Email::jankikansagra12@gmail.com', '285.00', 'OFF10', 28, 257, 'Ordered', 'Completed', 'Online', '2024-11-27 08:30:33', '2024-12-02 12:10:23'),
+(5, 'order_PQBJzMK3EXi7bX', 'order_PQBJzMK3EXi7bX-6', 6, 2, '4.0', 'overall an excellent product', 'jankikansagra12@gmail.com', 'Pratyush Faldu<br>A-301 Bilipatr Apartment <br>Mavdi Chowk<br>Rajkot-360004<br>Gujarat<br>India<br>Mobile: 1478963250<br>Email::pratyushf31@northstar.edu.in', '3800.00', 'OFF10', 196, 3604, 'Ordered', 'Completed', 'Online', '2024-11-27 09:01:41', '2024-12-02 12:10:56'),
+(6, 'order_PQBJzMK3EXi7bX', 'order_PQBJzMK3EXi7bX-9', 9, 1, '3.0', 'average product', 'jankikansagra12@gmail.com', 'Pratyush Faldu<br>A-301 Bilipatr Apartment <br>Mavdi Chowk<br>Rajkot-360004<br>Gujarat<br>India<br>Mobile: 1478963250<br>Email::pratyushf31@northstar.edu.in', '285.00', 'OFF10', 15, 270, 'Ordered', 'Completed', 'Online', '2024-11-27 09:01:41', '2024-12-03 12:24:01'),
+(7, 'order_PQBNciv9cw5x9s', 'order_PQBNciv9cw5x9s-10', 10, 1, NULL, NULL, 'jankikansagra12@gmail.com', 'Pratyush Faldu<br>A-301 Bilipatr Apartment <br>Mavdi Chowk<br>Rajkot-360004<br>Gujarat<br>India<br>Mobile: 1478963250<br>Email::pratyushf31@northstar.edu.in', '4750.00', 'OFF10', 189, 4561, 'Ordered', 'Completed', 'Online', '2024-11-27 09:05:16', '2024-11-27 11:04:30'),
+(8, 'order_PQBNciv9cw5x9s', 'order_PQBNciv9cw5x9s-9', 9, 1, NULL, NULL, 'jankikansagra12@gmail.com', 'Pratyush Faldu<br>A-301 Bilipatr Apartment <br>Mavdi Chowk<br>Rajkot-360004<br>Gujarat<br>India<br>Mobile: 1478963250<br>Email::pratyushf31@northstar.edu.in', '285.00', 'OFF10', 11, 274, 'Ordered', 'Completed', 'Online', '2024-11-27 09:05:16', '2024-11-27 11:04:34'),
+(9, 'order_6746b16c27123', 'order_6746b16c27123-6', 6, 2, '5.0', 'Extraordinary product', 'jankikansagra12@gmail.com', 'Janki Kansagra<br>BapaSitaram Chowk, Mavdi Gam<br>Mavdi Chowk, 150 Ft. Ring Road<br>Rajkot-360005<br>Gujarat<br>India<br>Mobile: 1472583690<br>Email::janki.kansagra@rku.ac.in', '3800.00', 'OFF10', 200, 3600, 'Ordered', 'Pending', 'COD', '2024-11-27 11:11:19', '2024-12-03 10:30:25'),
+(10, 'order_6746b16c279d6', 'order_6746b16c279d6-6', 6, 2, '3.0', 'average  product', 'jankikansagra12@gmail.com', 'abc<br>hsgdasdhad<br>swqweee<br>ghashahq-147147<br>Gujarat<br>India<br>Mobile: 1471471470<br>Email::janki@gmail.com', '3800.00', 'OFF10', 200, 3600, 'Ordered', 'Pending', 'COD', '2024-11-27 11:13:08', '2024-12-03 13:32:06'),
+(11, 'order_6747525854a1e', 'order_6747525854a1e-6', 6, 5, NULL, NULL, 'jankikansagra12@gmail.com', 'JAnki<br>dfgvbhjn<br>dcfvgbhnjmk<br>dcfvgbhjnmk-360004<br>ertgh<br>rdftghj<br>Mobile: 1478523690<br>Email::jankikansagra12@gmail.com', '9500.00', 'OFF10', 200, 9300, 'Ordered', 'Pending', 'COD', '2024-11-27 22:39:44', '2024-11-27 22:39:44'),
+(12, 'order_PQPHvax5m9hkfq', 'order_PQPHvax5m9hkfq-6', 6, 3, NULL, NULL, 'jankikansagra12@gmail.com', 'Janki Kansagra<br>BapaSitaram Chowk, Mavdi Gam<br>Mavdi Chowk, 150 Ft. Ring Road<br>Rajkot-360005<br>Gujarat<br>India<br>Mobile: 1472583690<br>Email::janki.kansagra@rku.ac.in', '5700.00', 'OFF10', 200, 5500, 'Ordered', 'Completed', 'Online', '2024-11-27 22:41:44', '2024-11-27 22:41:44'),
+(13, 'order_674818e200d84', 'order_674818e200d84-6', 6, 2, NULL, NULL, 'jankikansagra12@gmail.com', 'Janki Kansagra<br>BapaSitaram Chowk, Mavdi Gam<br>Mavdi Chowk, 150 Ft. Ring Road<br>Rajkot-360005<br>Gujarat<br>India<br>Mobile: 1472583690<br>Email::janki.kansagra@rku.ac.in', '3800.00', 'OFF10', 200, 3600, 'Ordered', 'Pending', 'COD', '2024-11-28 12:46:50', '2024-11-28 12:46:50'),
+(14, 'order_PQdk9ryBWI3CgT', 'order_PQdk9ryBWI3CgT-9', 9, 1, NULL, NULL, 'jankikansagra12@gmail.com', 'Pratyush Faldu<br>A-301 Bilipatr Apartment <br>Mavdi Chowk<br>Rajkot-360004<br>Gujarat<br>India<br>Mobile: 1478963250<br>Email::pratyushf31@northstar.edu.in', '285.00', '', 0, 285, 'Ordered', 'Completed', 'Online', '2024-11-28 12:49:55', '2024-11-28 12:49:55'),
+(15, 'order_674d499bcaeaf', 'order_674d499bcaeaf-9', 9, 1, NULL, NULL, 'jankikansagra12@gmail.com', 'abc<br>hsgdasdhad<br>swqweee<br>ghashahq-147147<br>Gujarat<br>India<br>Mobile: 1471471470<br>Email::janki@gmail.com', '285.00', 'OFF10', 6, 279, 'Ordered', 'Pending', 'COD', '2024-12-02 11:16:03', '2024-12-02 11:16:03'),
+(16, 'order_674d499bcaeaf', 'order_674d499bcaeaf-10', 10, 1, NULL, NULL, 'jankikansagra12@gmail.com', 'abc<br>hsgdasdhad<br>swqweee<br>ghashahq-147147<br>Gujarat<br>India<br>Mobile: 1471471470<br>Email::janki@gmail.com', '4750.00', 'OFF10', 106, 4644, 'Ordered', 'Pending', 'COD', '2024-12-02 11:16:03', '2024-12-02 11:16:03'),
+(17, 'order_674d499bcaeaf', 'order_674d499bcaeaf-7', 7, 2, NULL, NULL, 'jankikansagra12@gmail.com', 'abc<br>hsgdasdhad<br>swqweee<br>ghashahq-147147<br>Gujarat<br>India<br>Mobile: 1471471470<br>Email::janki@gmail.com', '3920.00', 'OFF10', 88, 3832, 'Ordered', 'Pending', 'COD', '2024-12-02 11:16:03', '2024-12-02 11:16:03');
 
 -- --------------------------------------------------------
 
@@ -295,11 +310,11 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `product_name`, `main_image`, `other_images`, `category_id`, `price`, `description`, `quantity`, `status`, `discount`, `discounted_price`, `created_at`, `updated_at`) VALUES
-(6, 'Oppo F21 Pro', '673440fb640ecdownload (4).jpg', '673440fb640f4download (8).jpg,673440fb640f6download (9).jpg,673440fb640f8download (10).jpg', 2, '2000.00', 'fgffffffffffffffffffffffffffff', 5, 'Active', 5, 1900, '2024-11-13 11:32:35', '2024-11-27 08:17:17'),
-(7, 'Samsung TV 54\"', '673441d023901download (15).jpg', '673441d023910download (11).jpg,673441d023915download (12).jpg,673441d023917download (13).jpg,673441d023919download (14).jpg,673441d02391adownload (16).jpg,673441d02391bdownload (17).jpg', 5, '2000.00', 'reeeeeeeeeeeeeeeeeeeeeeeee', 0, 'Active', 2, 1960, '2024-11-13 11:36:08', '2024-11-27 08:30:33'),
-(8, 'Vivo', '67344856f0a81download (6).jpg', '67344856f0a8edownload (3).jpg,67344856f0a94download (4).jpg,67344856f0a96download (5).jpg', 2, '5000.00', '', 0, 'Active', 10, 4500, '2024-11-13 12:03:58', '2024-11-27 08:25:35'),
-(9, 'Headphones', '67345eb2d1ae8download (23).jpg', '67345eb2d1af7download (24).jpg,67345eb2d1afedownload (25).jpg,67345eb2d1b00download (26).jpg,67345eb2d1b01images (2).jpg,67345eb2d1b03images (3).jpg,67345eb2d1b04images (4).jpg', 3, '300.00', '<ul><li>good</li></ul>', 4, 'Active', 5, 285, '2024-11-13 13:39:22', '2024-11-27 08:30:33'),
-(10, 'Television LG', '6736bf4f1cfa6download (17).jpg', '6736bf4f1cfaedownload (13).jpg,6736bf4f1cfafdownload (14).jpg,6736bf4f1cfb0download (15).jpg,6736bf4f1cfb1download (16).jpg', 5, '5000.00', '<p>qwswwqwq</p>', 5, 'Active', 5, 4750, '2024-11-15 08:56:07', '2024-11-15 08:56:07');
+(6, 'Oppo F21 Pro', '673440fb640ecdownload (4).jpg', '673440fb640f4download (8).jpg,673440fb640f6download (9).jpg,673440fb640f8download (10).jpg', 2, '2000.00', 'fgffffffffffffffffffffffffffff', 10, 'Active', 5, 1900, '2024-11-13 11:32:35', '2024-11-28 12:46:50'),
+(7, 'Samsung TV 54\"', '673441d023901download (15).jpg', '673441d023910download (11).jpg,673441d023915download (12).jpg,673441d023917download (13).jpg,673441d023919download (14).jpg,673441d02391adownload (16).jpg,673441d02391bdownload (17).jpg', 5, '2000.00', 'reeeeeeeeeeeeeeeeeeeeeeeee', 3, 'Active', 2, 1960, '2024-11-13 11:36:08', '2024-12-02 11:16:03'),
+(8, 'Vivo', '67344856f0a81download (6).jpg', '67344856f0a8edownload (3).jpg,67344856f0a94download (4).jpg,67344856f0a96download (5).jpg', 2, '5000.00', '', 10, 'Active', 10, 4500, '2024-11-13 12:03:58', '2024-12-03 12:24:29'),
+(9, 'Headphones', '67345eb2d1ae8download (23).jpg', '67345eb2d1af7download (24).jpg,67345eb2d1afedownload (25).jpg,67345eb2d1b00download (26).jpg,67345eb2d1b01images (2).jpg,67345eb2d1b03images (3).jpg,67345eb2d1b04images (4).jpg', 3, '300.00', '<ul><li>good</li></ul>', 10, 'Active', 5, 285, '2024-11-13 13:39:22', '2024-12-03 12:24:39'),
+(10, 'Television LG', '6736bf4f1cfa6download (17).jpg', '6736bf4f1cfaedownload (13).jpg,6736bf4f1cfafdownload (14).jpg,6736bf4f1cfb0download (15).jpg,6736bf4f1cfb1download (16).jpg', 5, '5000.00', '<p>qwswwqwq</p>', 3, 'Active', 5, 4750, '2024-11-15 08:56:07', '2024-12-02 11:16:03');
 
 -- --------------------------------------------------------
 
@@ -502,7 +517,7 @@ ALTER TABLE `best_practices`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `category_master`
@@ -532,7 +547,7 @@ ALTER TABLE `offers`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `password_token`

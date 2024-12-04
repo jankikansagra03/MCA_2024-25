@@ -17,8 +17,8 @@ if ($total_price <= 0) {
 $payer = new Payer();
 $payer->setPaymentMethod('paypal');
 
-$clientId = 'Your paypal client id';
-$secret = 'Your paypal secret kay';
+$clientId = 'Your paypal Client id';
+$secret = 'Paypal Secret';
 $apiContext = new \PayPal\Rest\ApiContext(
     new \PayPal\Auth\OAuthTokenCredential($clientId, $secret)
 );

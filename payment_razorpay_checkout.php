@@ -50,8 +50,8 @@ try {
             $actual_price = $total_price - $discount_amount;
             $quantity = $order_result['quantity'];
 
-            $insert_order = "INSERT INTO `orders`(`order_id`, `sub_order_id`, `product_id`, `quantity`, `email`, `delivery_address`, `total_amount`, `offer_name`, `discount_amount`, `actual_amount`) 
-                             VALUES ('$razorpay_order_id', '$razorpay_order_id-$product_id', $product_id, $quantity, '$email', '$address', $total_price, '$offer_code', $discount_amount, $actual_price)";
+            $insert_order = "INSERT INTO `orders`(`order_id`, `sub_order_id`, `product_id`, `quantity`, `email`, `delivery_address`, `total_amount`, `offer_name`, `discount_amount`, `actual_amount`,`payment_status`) 
+                             VALUES ('$razorpay_order_id', '$razorpay_order_id-$product_id', $product_id, $quantity, '$email', '$address', $total_price, '$offer_code', $discount_amount, $actual_price,'Completed')";
             mysqli_query($con, $insert_order);
 
             $remaining_quantity = $p_result['quantity'] - $quantity;

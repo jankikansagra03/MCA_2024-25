@@ -188,9 +188,9 @@ if (isset($_SESSION['admin'])) {
                                                                 } ?>" href="view_wishlist.php">WishList</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link <?php if ($parts[2] == "user_order.php") {
+                                            <a class="nav-link <?php if ($parts[2] == "user_orders.php") {
                                                                     echo "active btn btn-success    ";
-                                                                } ?>" href="user_order.php">My Orders</a>
+                                                                } ?>" href="user_orders.php">My Orders</a>
                                         </li>
 
 

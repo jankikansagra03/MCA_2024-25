@@ -3,7 +3,7 @@ include_once("header.php");
 
 ?>
 
-<div class="container center">
+<div class="container">
     <div class="row text-center">
         <div class="col-12 bg-dark text-white p-4">
             <h1>Product Gallery</h1>
@@ -15,14 +15,14 @@ include_once("header.php");
     $query = "SELECT * FROM products WHERE status='Active'";
     $result = mysqli_query($con, $query);
     ?>
-    <div class="row p-4 gy-4">
+    <div class="row p-4 gy-4 text-center">
         <?php
         // Check if there are products
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
         ?>
-                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6 col-sm-12 text-center">
-                    <div class="card <?php if ($row['quantity'] == 0) echo 'out-of-stock'; ?>" style="width: 18rem; position: relative;height:480px;">
+                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                    <div class="card <?php if ($row['quantity'] == 0) echo 'out-of-stock'; ?>" style="width: 18rem;">
                         <?php if ($row['quantity'] == 0): ?>
                             <div class="out-of-stock-text">Out of Stock</div>
                         <?php endif; ?>

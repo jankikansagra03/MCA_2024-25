@@ -3,7 +3,7 @@ include_once("header.php");
 include_once("user_authentication.php");
 $email = $_SESSION['user'];
 $q = "select * from registration where email='$email'";
-$result = mysqli_query($con, $q);
+$result = mysqli_fetch_assoc(mysqli_query($con, $q));
 ?>
 <div class="container">
     <div class="row text-center">
@@ -12,7 +12,7 @@ $result = mysqli_query($con, $q);
                 <?php
                 $wishlist_total = 0;
                 $email = $_SESSION['user']; // Assuming user is logged in and email is stored in session
-                echo $email . "'s Wishlist";
+                echo $result['fullname'] . "'s Wishlist";
                 ?>
             </h1>
         </div>
@@ -20,23 +20,7 @@ $result = mysqli_query($con, $q);
     <br>
     <div class="row">
         <div class="col-12">
-            <style>
-                .table-responsive {
-                    display: block;
-                    width: 100%;
-                    overflow-x: auto;
-                    -webkit-overflow-scrolling: touch;
-                    /* For smooth scrolling on touch devices */
-                    white-space: nowrap;
-                }
-
-                .table th,
-                .table td {
-                    white-space: nowrap;
-                    /* Ensure text doesn't wrap, useful for large content */
-                }
-            </style>
-            <table class="table table-striped">
+            <table class="table table-striped table-responsive">
                 <thead>
                     <tr>
                         <th>Sr.No</th>

@@ -3,7 +3,8 @@ product-card {
     padding: 15px;
     margin: 10px;
     border-radius: 5px;
-    width: 200px;
+    width: 100%;
+    height: 100%;
     text-align: center;
     opacity: 1;
 }
@@ -24,7 +25,7 @@ product-card {
     top: 0;
     left: 0;
     width: 100%;
-    height: auto;
+    height: 100%;
     background: rgba(211, 211, 211, 0.5);
     color: red;
     font-weight: bold;
@@ -39,4 +40,90 @@ product-card {
     .container {
         text-align: center;
     }
+
+    input[type="button"] {
+        margin-top: 10px;
+    }
+
+}
+
+@media (max-width: 992px) {
+    .container {
+        text-align: center;
+    }
+
+    input[type="button"] {
+        margin-top: 10px;
+    }
+
+}
+
+@media (max-width: 442px) {
+    .container {
+        text-align: center;
+    }
+
+    input[type="button"] {
+        margin-top: 10px;
+    }
+}
+
+.table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    /* For smooth scrolling on touch devices */
+    white-space: nowrap;
+}
+
+.table th,
+.table td {
+    white-space: nowrap;
+    /* Ensure text doesn't wrap, useful for large content */
+}
+
+
+/* Timeline Container */
+.timeline {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.timeline-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.timeline-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-right: 1rem;
+    font-size: 1.2rem;
+}
+
+.timeline-content {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    flex-grow: 1;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.timeline-content h5 {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.badge {
+    font-size: 0.85rem;
+    padding: 0.5em 0.75em;
 }
